@@ -1,0 +1,25 @@
+generated: '2026-08-05'
+method: probed
+probe: true
+url: https://trust.swiftly.com/
+platform: Thoropass (formerly Laika) hosted Trust Center
+certifications: []
+certifications_note: >-
+  The trust center exists and returns HTTP 200 with <title>Trust Center</title>, but the
+  page is a client-side React SPA whose content is loaded from an AWS AppSync GraphQL
+  endpoint that rejects anonymous callers (HTTP 401 UnauthorizedException). No named
+  certification (SOC 2 / ISO 27001 / PCI DSS / HIPAA / GDPR) could be read without
+  executing JavaScript, so none are recorded here. Presence is confirmed; content is not.
+  Do not infer certifications from the presence of the trust center.
+evidence:
+- source: https://trust.swiftly.com/
+  http_status: 200
+  content_type: text/html; charset=utf-8
+  observed: '<title>Trust Center</title>; app bundle laika-app-prod.s3.amazonaws.com/static/trust-center/assets/index.js'
+- source: https://fhovr7cwmfgebommmcztmsw5ze.appsync-api.us-east-1.amazonaws.com/graphql
+  http_status: 401
+  observed: 'UnauthorizedException — trust center content API is not anonymously readable'
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://trust.swiftly.com/
+  http_status: 200

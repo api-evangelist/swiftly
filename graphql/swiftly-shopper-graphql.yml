@@ -1,0 +1,46 @@
+generated: '2026-08-05'
+method: probed
+source: https://prod.swiftlyapi.net/graphql
+spec_type: GraphQL
+endpoint: https://prod.swiftlyapi.net/graphql
+alternate_endpoints:
+- {url: 'https://sm.swiftlyapi.net/graphql', note: 'retailer-scoped edge; introspects to the same schema'}
+discovery:
+  how: >-
+    Not published by Swiftly. The API host was found by reading the page source of
+    savemart.com — a storefront Swiftly builds and operates — which references
+    prod.swiftlyapi.net and sm.swiftlyapi.net. Introspection was then confirmed by POSTing
+    a standard GraphQL introspection query.
+  introspection_enabled: true
+  authentication_required_for_introspection: false
+files:
+- {file: swiftly-shopper.graphql, format: SDL, note: 'rendered from the introspection response'}
+- {file: swiftly-shopper-introspection.json, format: introspection JSON, note: verbatim}
+schema:
+  types: 308
+  objects: 188
+  interfaces: 20
+  unions: 5
+  enums: 63
+  input_objects: 11
+  custom_scalars: 9
+  queries: 45
+  mutations: 11
+  subscriptions: 0
+  deprecated_fields: 13
+capabilities:
+- Offers and coupons (v1 and v2 models)
+- Product catalog, search, facets, barcode lookup
+- Store and chain directory with geo proximity
+- Digital circulars / flyers
+- Loyalty programs, points, rewards, challenges
+- Shopper accounts and age verification
+- Retail-media ad placements, sponsored landing pages, deals home
+- Mobile app configuration and feature toggles
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://prod.swiftlyapi.net/graphql
+  http_status: 200
+  content_type: application/json
+  response_bytes: 383210
+  method: 'POST {"query":"query IntrospectionQuery {...}"}'

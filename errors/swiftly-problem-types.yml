@@ -1,0 +1,62 @@
+generated: '2026-08-05'
+method: probed
+source: live error responses from https://prod.swiftlyapi.net/graphql
+format: graphql-errors
+format_note: >-
+  Not RFC 9457. The API is GraphQL over HTTP: every response — success or failure — is
+  HTTP 200 with application/json, and failures are carried in a top-level errors[] array.
+  There is no application/problem+json surface and no documented error reference.
+envelope:
+  transport_status: 200
+  content_type: application/json
+  error_array: errors
+  fields:
+  - {name: message, description: 'Human-readable message; carries the underlying Java exception class for runtime failures'}
+  - {name: locations, description: 'Array of {line, column} into the submitted query document'}
+  - {name: path, description: 'Response path to the field that failed'}
+  - {name: extensions.operation_id, description: 'Short server-side operation identifier'}
+  - {name: extensions.requestId, description: 'UUID request correlation id — the tracing handle for support'}
+  - {name: extensions.title, description: 'Optional display title (observed empty)'}
+  - {name: extensions.desc, description: 'Optional display description (observed empty)'}
+problems:
+- class: validation
+  graphql_error_type: FieldUndefined
+  title: Field is undefined on type
+  observed_message: "Validation error of type FieldUndefined: Field 'notARealField' in type 'Query' is undefined @ 'notARealField'"
+  remediation: Check the field against graphql/swiftly-shopper.graphql before sending.
+  transport_status: 200
+- class: validation
+  graphql_error_type: WrongType
+  title: Argument value is not a valid enum/scalar
+  observed_message: "Validation error of type WrongType: argument 'app' with value 'StringValue{value='ios'}' is not a valid 'MobileAppType' - Expected AST type 'EnumValue' but was 'StringValue'."
+  remediation: Enum arguments must be sent as GraphQL enum literals, not quoted strings.
+  transport_status: 200
+- class: input
+  exception: IllegalArgumentException
+  title: Invalid UUID string
+  observed_message: 'Exception while fetching data () : Invalid UUID string: 1'
+  remediation: chainId, storeId and most other identifiers are UUIDs, not integers.
+  transport_status: 200
+- class: authorization
+  exception: InvalidTokenException
+  title: Invalid access token
+  observed_message: 'Error fetching getShopperAccount): InvalidTokenException: Invalid access token.'
+  remediation: Supply a shopper bearer token in the Authorization header — see authentication/swiftly-authentication.yml.
+  transport_status: 200
+- class: tenancy
+  exception: IllegalStateException
+  title: Chain not available in session context
+  observed_message: 'Error fetching loyaltyPrograms): IllegalStateException: Chain not available in session context'
+  remediation: Supply the retailer chain context (X-Swiftly-Account-Key) so the request resolves to a tenant.
+  transport_status: 200
+gaps:
+- >-
+  Server-side exception class names (IllegalStateException, InvalidTokenException,
+  IllegalArgumentException) leak into the message field returned to unauthenticated
+  callers. There is no stable machine-readable error code — extensions carries an
+  operation_id and requestId but no error code enum.
+- No published error reference exists to enrich these entries against.
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://prod.swiftlyapi.net/graphql
+  http_status: 200

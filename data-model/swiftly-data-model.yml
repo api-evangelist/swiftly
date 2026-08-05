@@ -1,0 +1,120 @@
+generated: '2026-08-05'
+method: derived
+source: graphql/swiftly-shopper-introspection.json
+render: null
+summary:
+  schema_types: 308
+  objects: 188
+  interfaces: 20
+  unions: 5
+  enums: 63
+  input_objects: 11
+  custom_scalars: [BigDecimal, Byte, Date, LocalDate, LocalDateTime, LocalTime, Long, OffsetDateTime, UUID]
+  queries: 45
+  mutations: 11
+  subscriptions: 0
+identifier_conventions:
+  uuid_fields: [chainId, storeId, userId]
+  string_id_fields: [offerId, productId, programId, rewardId, rewardInstanceId, swiftlyShopperId, loyaltyAccountId, siteId, networkId]
+  note: >-
+    Identifier typing is inconsistent across the graph. Chain/store/user ids are the UUID
+    scalar, while offer, product, loyalty-program, reward and shopper ids are plain String.
+    OfferV2Response.storeId is String where Offer.storeId is UUID for the same concept.
+domains:
+- name: Retail network
+  entities: [Chain, StoreEntry, Stores, StoreEntryDistance, StoreDetails, SwiftLaneConfig, FeatureToggleGroup]
+- name: Catalog
+  entities: [Product, ProductSummary, ProductResult, Taxonomy, TaxonomyNode, RetailerCategory, PriceResult, WebPriceResult, ImageRef, Tag, Notice]
+- name: Offers and coupons
+  entities: [Offer, Offers, ShopperOffer, OfferV2Response, PromotedOffer, SwiftlyOfferUserHistory, SwiftlyOfferUserSummary, Flyer]
+- name: Loyalty
+  entities: [LoyaltyProgram, LoyaltyProgramAccount, LoyaltySummary, Reward, IssuedReward, ShopperLoyaltyCardResponse, Challenge, StoreTransactionClaim]
+- name: Shopper identity
+  entities: [ShopperAccount, ShopperAttributes, ShopperCalculations, User, UserProfile]
+- name: Retail media
+  entities: [DealsHome, CategoryDetails, SponsoredLandingPage, AdRefList, AdWithPlacement, ImageAdDTO, OfferAdDTO, LayoutAdDTO, CarouselCollectionDTO, PlacementDTO]
+entities:
+- name: Chain
+  description: A retailer chain — the tenant boundary of the whole API.
+  root_query: chain(chainId)
+  fields: [branding, configuration]
+- name: StoreEntry
+  description: A physical store location. Modelled as an interface, so store shape varies per retailer.
+  kind: interface
+  root_query: [store(chainId, storeId), storeByNumber(storeNumber), stores(chainId)]
+  fields: [storeId, chainId, number, address1, address2, city, state, postalCode, country, latitude, longitude, timeZone, isOpenNow, amenities, accessibility, payments, shoppingModes, language, swiftlyServices, primaryDetails, departmentDetails]
+- name: Product
+  description: A catalog item, resolvable by id or by scanned barcode, priced per store.
+  root_query: [product(productId, storeId), productByBarcode(barcode, storeId), products(...)]
+  fields: [id, name, shortName, brand, description, categories, unitSize, soldBy, inventoryQuantity, images, price, webPrice, tags, notices, eligibilities, offers]
+- name: Offer
+  description: A clippable coupon/promotion. The richest entity in the graph — 60+ fields including seven mutually exclusive parameter blocks for the offer maths.
+  root_query: [allOffers, claimedOffers, redeemedOffers, searchOffers, productOffers, rankedOffers]
+  fields: [id, sourceId, sourceOfferId, chainId, storeId, offerType, offerValueType, clipType, fundingType, offerIssuerType, activeDate, expirationDate, clipStartDate, clipEndDate, isExclusive, isStackable, isTender, sponsored, offerParameters, shopperOffer, decorators]
+  variants: [bogoParameters, centsOffParameters, compoundCentsOffParameters, compoundFixedPriceParameters, fixedPriceParameters, freeOfferParameters, orderTotalParameters, percentOffParameters]
+- name: OfferV2Response
+  description: The v2 offer projection — a flatter, zipcode/store/source-addressable offer record that coexists with Offer.
+  root_query: [offersv2bySourceId, offersv2byStoreId, offersv2byZipcode]
+  fields: [id, source, sourceId, storeId, zipcode, title, summary, description, brandName, type, beginAt, endAt, ageRestricted, upcs, imageUrls, termsAndConditions, warningTitle, warningDescription]
+- name: LoyaltyProgram
+  root_query: loyaltyPrograms(customRetailerProperties)
+  fields: [programId, programName, enrolled, account]
+- name: Reward
+  root_query: availableLoyaltyRewards(storeId, loyaltyAccountId, loyaltyProgramId)
+  fields: [rewardId, displayName, description, brand, pointCost, status, images, pluPrices, termsAndConditions]
+- name: IssuedReward
+  root_query: issuedLoyaltyRewards(loyaltyAccountId, loyaltyProgramId, chainProvisioningStatus)
+  fields: [rewardInstanceId, reward, expiration, scannablePayload, barcodeType, chainProvisioningStatus, storeProvisioningStatus, requestedStoreId]
+- name: ShopperAccount
+  root_query: getShopperAccount(swiftlyShopperId)
+  fields: [swiftlyShopperId, attributes, calculations]
+- name: Flyer
+  description: A weekly digital circular for a store.
+  root_query: flyersByDate(storeId, date)
+  fields: [externalFlyerId, title, chain, store, startDate, endDate, activationDate, images]
+relationships:
+- {from: Chain, to: StoreEntry, kind: has_many, via: chainId}
+- {from: StoreEntry, to: Chain, kind: belongs_to, via: chainId}
+- {from: StoreEntry, to: StoreDetails, kind: has_one, via: primaryDetails}
+- {from: StoreEntry, to: StoreDetails, kind: has_many, via: departmentDetails}
+- {from: Stores, to: StoreEntry, kind: has_many, via: all}
+- {from: Stores, to: StoreEntryDistance, kind: has_many, via: nearby}
+- {from: Product, to: PriceResult, kind: has_one, via: price}
+- {from: Product, to: WebPriceResult, kind: has_one, via: webPrice}
+- {from: Product, to: Offers, kind: has_one, via: offers}
+- {from: Product, to: ImageRef, kind: has_many, via: images}
+- {from: ProductResult, to: ProductSummary, kind: has_many, via: products}
+- {from: Offer, to: Chain, kind: belongs_to, via: chainId}
+- {from: Offer, to: StoreEntry, kind: belongs_to, via: storeId}
+- {from: Offer, to: ShopperOffer, kind: has_one, via: shopperOffer}
+- {from: Offer, to: OfferParameters, kind: has_one, via: offerParameters, note: union of the eight parameter shapes}
+- {from: Offer, to: OfferDecorator, kind: has_many, via: decorators}
+- {from: OfferV2Response, to: UpcInfo, kind: has_many, via: upcs}
+- {from: LoyaltyProgram, to: LoyaltyProgramAccount, kind: has_one, via: account}
+- {from: LoyaltyProgramAccount, to: LoyaltyProgram, kind: belongs_to, via: programId}
+- {from: LoyaltySummary, to: IssuedReward, kind: has_many, via: issuedRewards, deprecated: true}
+- {from: LoyaltySummary, to: LoyaltySummaryPoints, kind: has_many, via: summaryPoints}
+- {from: IssuedReward, to: Reward, kind: has_one, via: reward}
+- {from: IssuedReward, to: StoreEntry, kind: belongs_to, via: requestedStoreId}
+- {from: Reward, to: ClientPriceRowData, kind: has_many, via: pluPrices}
+- {from: ShopperAccount, to: ShopperAttributes, kind: has_one, via: attributes}
+- {from: ShopperAccount, to: ShopperCalculations, kind: has_one, via: calculations}
+- {from: User, to: UserProfile, kind: has_one, via: profile}
+- {from: Flyer, to: ImageRef, kind: has_many, via: images}
+- {from: Taxonomy, to: TaxonomyNode, kind: has_many, via: graph}
+- {from: StoreTransactionClaim, to: StoreEntry, kind: belongs_to, via: storeId}
+- {from: DealsHome, to: RetailerCategory, kind: has_many, via: categories}
+- {from: DealsHome, to: AdWithPlacement, kind: has_many, via: adList}
+- {from: CategoryDetails, to: PromotedOffer, kind: has_many, via: promotedOffers, deprecated: true}
+observations:
+- >-
+  Two parallel offer models ship side by side (Offer + the offersv2* / OfferV2Response
+  family) with no deprecation marker on either. A consumer cannot tell from the schema
+  which is current.
+- >-
+  StoreEntry is an interface rather than a type, so store shape is per-retailer. Any client
+  binding to concrete store fields is binding to one tenant's implementation.
+- >-
+  Offer carries eight mutually exclusive *Parameters objects AND an offerParameters union
+  covering the same ground — the union is the modelled path, the eight flat fields are the
+  legacy path.

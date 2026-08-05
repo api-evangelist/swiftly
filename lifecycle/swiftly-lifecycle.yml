@@ -1,0 +1,59 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  graphql/swiftly-shopper-introspection.json + https://prod.swiftlyapi.net/health, plus
+  negative probes for a published policy surface
+versioning:
+  scheme: in-schema
+  current: null
+  deployed_version: 1.42.3
+  deployed_commit: 5fb3bbbde4e778d7d3ce860c2eb1ba848132cbb3
+  version_endpoint: https://prod.swiftlyapi.net/health
+  docs: null
+  note: >-
+    The endpoint path carries no version segment. Versioning is expressed inside the schema
+    (offersv2bySourceId / offersv2byStoreId / offersv2byZipcode and OfferV2Response beside
+    the v1 offer queries) and by GraphQL @deprecated. /health exposes a semver build
+    version and git commit to anonymous callers.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  mechanism: GraphQL @deprecated directive
+  note: >-
+    Swiftly publishes no deprecation policy, no sunset timeline and no notice channel. No
+    Deprecation pointer is wired in apis.yml because there is no policy to point at — the
+    schema-level @deprecated reasons below are the only signal a consumer gets, and several
+    of them ("Required for backwards compatibility", "kept here only to prevent breaking
+    client queries") describe debt rather than a retirement plan.
+deprecated_fields:
+- {field: CategoryDetails.promotedOffers, reason: 'PromotedOffers kept here only to prevent breaking client queries. No longer used in graphql, only offer service'}
+- {field: ImageRef.images, reason: 'a single desired density is mandated, replace with image'}
+- {field: IssuedReward.expiryDateTime, reason: 'Use expiration'}
+- {field: LoyaltySummary.issuedRewards, reason: 'Use issuedLoyaltyRewards query'}
+- {field: Offer.limitedUse, reason: 'No longer supported. Please use multipleUse instead., replace with multipleUse'}
+- {field: PriceDetail.price, reason: "don't expose value as a number"}
+- {field: PriceResult.err, reason: 'use failure property'}
+- {field: PriceResult.ok, reason: 'use success property'}
+- {field: ProductSummary.fdPriceTag, reason: 'Required for backwards compatibility'}
+- {field: Reward.uiDialogTypeDefinitions, reason: 'Old pattern where we were controlling client experience'}
+- {field: SavingsDetail.savingsAmount, reason: "don't expose value as a number"}
+- {field: SavingsDetail.savingsPercent, reason: 'requires more precision'}
+- {field: WebPrice.isSale, reason: 'View model restructured. Sale is now indicated with a class'}
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_note: >-
+  A Statuspage tenant exists at https://swiftly.statuspage.io (HTTP 200, page name
+  "Swiftly"), but its component list is still the Statuspage default demo set —
+  "API (example)", "Management Portal (example)", "Static Pages" — and it is not linked
+  from swiftly.com or any Swiftly host. It is an unconfigured shell, so no StatusPage
+  pointer is wired in apis.yml. Recorded here so a later round does not re-credit it.
+changelog: null
+changelog_note: No dated changelog or release notes are published for the API or the platform.
+x-evidence:
+  fetched: '2026-08-05'
+  probes:
+  - {url: 'https://prod.swiftlyapi.net/health', http_status: 200}
+  - {url: 'https://swiftly.statuspage.io/api/v2/summary.json', http_status: 200, note: 'default example components only'}
+  - {url: 'https://swiftly.com/sitemap.xml', http_status: 200, note: 'no changelog, status, deprecation or SLA page among ~290 URLs'}

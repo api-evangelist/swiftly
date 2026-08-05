@@ -1,0 +1,68 @@
+generated: '2026-08-05'
+method: derived
+status: candidate
+published: false
+searched:
+  result: none
+  note: >-
+    No hosted or remote MCP server exists for Swiftly. Probed for /.well-known/ MCP and
+    OAuth resource metadata on swiftly.com, prod.swiftlyapi.net and sm.swiftlyapi.net (all
+    404), searched the docs surface (there is none), the npm registry and the
+    Swiftly-Systems GitHub org (4 repos, all hiring exercises). Nothing found.
+  probes:
+  - {url: 'https://swiftly.com/.well-known/ai-plugin.json', http_status: 404}
+  - {url: 'https://prod.swiftlyapi.net/.well-known/oauth-protected-resource', http_status: 404}
+  - {url: 'https://github.com/Swiftly-Systems', http_status: 200, note: 'no MCP or SDK repository'}
+server:
+  name: swiftly
+  transport: null
+  url: null
+  note: >-
+    This is a PROPOSED tool surface derived from the introspected GraphQL schema, not a
+    server Swiftly operates. apis.yml deliberately does NOT carry a type: MCPServer pointer
+    — that pointer would assert a server that does not exist. It is wired as MCPProposal so
+    the artifact stays discoverable without scoring as a live agent surface.
+source_schema: graphql/swiftly-shopper.graphql
+tools:
+- {name: get_store, description: 'Look up a store by chain and store id', source_field: 'Query.store(chainId, storeId)'}
+- {name: get_store_by_number, description: 'Look up a store by retailer store number', source_field: 'Query.storeByNumber(storeNumber)'}
+- {name: list_stores, description: 'List all stores for a chain, with nearby distance ordering', source_field: 'Query.stores(chainId)'}
+- {name: get_chain, description: 'Fetch retailer chain branding and configuration', source_field: 'Query.chain(chainId)'}
+- {name: get_product, description: 'Fetch a product with store-specific pricing', source_field: 'Query.product(productId, storeId)'}
+- {name: get_product_by_barcode, description: 'Resolve a scanned barcode to a product at a store', source_field: 'Query.productByBarcode(barcode, storeId)'}
+- {name: search_products, description: 'Search the catalog with facets, sorting and a continuation cookie', source_field: 'Query.products(match, taxonomyId, storeId, sortBy, offset, limit, cookie)'}
+- {name: get_taxonomy, description: 'Fetch the retailer category taxonomy graph', source_field: 'Query.taxonomy(id)'}
+- {name: search_offers, description: 'Keyword search across available offers', source_field: 'Query.searchOffers(keyword, offset, size, limit)'}
+- {name: list_offers, description: 'List all offers available to the shopper', source_field: Query.allOffers}
+- {name: list_claimed_offers, description: 'List offers the shopper has clipped', source_field: 'Query.claimedOffers(offset, size, limit)'}
+- {name: list_redeemed_offers, description: 'List offers the shopper has redeemed', source_field: 'Query.redeemedOffers(offset, size, limit)'}
+- {name: get_product_offers, description: 'List offers attached to a product', source_field: 'Query.productOffers(productId)'}
+- {name: get_offers_by_zipcode, description: 'v2 offer feed addressable by zipcode', source_field: 'Query.offersv2byZipcode(zipcode, loyaltyId, ageRestricted)'}
+- {name: get_offers_by_store, description: 'v2 offer feed addressable by store', source_field: 'Query.offersv2byStoreId(storeId, loyaltyId, ageRestricted)'}
+- {name: get_flyers, description: 'Fetch digital circulars for a store on a date', source_field: 'Query.flyersByDate(storeId, date)'}
+- {name: get_loyalty_summary, description: 'Fetch shopper points balance and lifetime savings', source_field: 'Query.loyaltySummary(userId)'}
+- {name: list_loyalty_programs, description: 'List loyalty programs and enrollment state', source_field: 'Query.loyaltyPrograms(customRetailerProperties)'}
+- {name: get_loyalty_card, description: 'Fetch the shopper loyalty card barcode payload', source_field: 'Query.loyaltyCard(userId)'}
+- {name: list_available_rewards, description: 'List rewards purchasable with points', source_field: 'Query.availableLoyaltyRewards(storeId, loyaltyAccountId, loyaltyProgramId)'}
+- {name: list_issued_rewards, description: 'List rewards already issued to the shopper', source_field: 'Query.issuedLoyaltyRewards(loyaltyAccountId, loyaltyProgramId, chainProvisioningStatus)'}
+- {name: list_challenges, description: 'List loyalty challenges', source_field: 'Query.challenges(criteria)'}
+- {name: get_shopper_account, description: 'Fetch a shopper account', source_field: 'Query.getShopperAccount(swiftlyShopperId)'}
+- {name: clip_offer, description: 'Clip/claim an offer for the shopper', source_field: 'Mutation.claimOffer(offerId)', write: true}
+- {name: decline_offer, description: 'Decline an offer', source_field: 'Mutation.declineOffer(offerId)', write: true}
+- {name: enroll_in_loyalty_program, description: 'Enroll the shopper in a loyalty program', source_field: 'Mutation.enrollInLoyaltyProgram(programId, customRetailerProperties)', write: true}
+- {name: purchase_reward, description: 'Spend points to purchase a reward', source_field: 'Mutation.purchaseReward(storeId, userId, rewardCanonicalId, loyaltyAccountId)', write: true, consequence: 'moves loyalty currency'}
+- {name: claim_receipt_transaction, description: 'Attach an in-store receipt to the shopper account', source_field: 'Mutation.claimStoreTransactionFromReceipt(shopperId, receiptUniqueId, tenantId)', write: true}
+- {name: create_shopper_account, description: 'Create a shopper account', source_field: 'Mutation.createShopperAccount(swiftlyShopperId, attributes)', write: true}
+- {name: update_shopper_account, description: 'Update shopper account attributes', source_field: 'Mutation.updateShopperAccount(swiftlyShopperId, changes)', write: true}
+- {name: delete_shopper_account, description: 'Delete a shopper account', source_field: 'Mutation.deleteShopperAccount(swiftlyShopperId)', write: true, consequence: destructive}
+- {name: start_age_verification, description: 'Begin shopper age verification for restricted offers', source_field: 'Mutation.startAgeVerification(swiftlyShopperId)', write: true}
+- {name: complete_age_verification, description: 'Complete shopper age verification', source_field: 'Mutation.completeAgeVerification(swiftlyShopperId, verificationId, verificationCode)', write: true}
+agent_safety_notes:
+- >-
+  Every write tool above needs a shopper bearer token AND a tenant chain key; none of the
+  mutations accept an idempotency key, so purchase_reward and claim_receipt_transaction are
+  not safe to retry blindly.
+- >-
+  Age-restricted offers exist in the schema (OfferV2Response.ageRestricted, the
+  startAgeVerification / completeAgeVerification mutations). An agent clipping offers on a
+  shopper's behalf crosses an age-gating boundary.

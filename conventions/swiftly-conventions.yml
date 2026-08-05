@@ -1,0 +1,91 @@
+generated: '2026-08-05'
+method: derived
+source: graphql/swiftly-shopper.graphql + live probes of https://prod.swiftlyapi.net/graphql
+docs: null
+docs_note: >-
+  Swiftly publishes no API conventions documentation. Everything below is derived from the
+  introspected schema and from observed live responses, not from a provider statement.
+transport:
+  protocol: GraphQL over HTTP
+  endpoint: https://prod.swiftlyapi.net/graphql
+  method: POST
+  content_type: application/json
+  http_status_on_error: 200
+  introspection: enabled for anonymous callers
+authentication:
+  see: authentication/swiftly-authentication.yml
+  style: tenant apiKey header (X-Swiftly-Account-Key) + shopper bearer token (Authorization)
+idempotency:
+  supported: false
+  evidence: >-
+    No idempotency key argument, input field, directive or header appears anywhere in the
+    308-type introspected schema, and no idempotency behaviour is documented. The 11
+    mutations (createShopperAccount, claimOffer, purchaseReward,
+    claimStoreTransactionFromReceipt, enrollInLoyaltyProgram, ...) carry no client-supplied
+    request key. Repeating purchaseReward or claimStoreTransactionFromReceipt has no
+    documented dedupe contract.
+  note: >-
+    No Idempotency pointer is wired in apis.yml because there is no idempotency contract to
+    point at. This is a real gap in an API whose mutations move loyalty points and redeem
+    rewards.
+pagination:
+  style: offset-limit
+  parameters:
+  - {name: offset, used_by: [claimedOffers, redeemedOffers, searchOffers, dealsHome, products]}
+  - {name: limit, used_by: [claimedOffers, redeemedOffers, searchOffers, rankedOffers, dealsHome, categoryPreviews, products]}
+  - {name: size, used_by: [claimedOffers, redeemedOffers, searchOffers], note: 'coexists with limit on the offers queries — two overlapping page-size arguments'}
+  - {name: contentLimit, used_by: [dealsHome]}
+  cursor:
+  - {name: cookie, used_by: [products], note: 'opaque continuation token on the product search query'}
+  response_fields: 'ProductResult and OfferV2Response carry the page envelope; no Relay Connection/edges/pageInfo pattern is used'
+  consistency: >-
+    Inconsistent. The catalog query uses an opaque cookie, the offers queries use
+    offset+size+limit, and the deals queries use offset+limit+contentLimit.
+filtering_and_scoping:
+  tenant_scope: 'chainId / storeId / siteId are required scoping arguments on most queries; missing chain context is a hard error'
+  identifiers: 'UUID scalar — chainId, storeId, loyaltyAccountId, programId are all UUIDs'
+  geo: 'X-Swiftly-Lat / X-Swiftly-Lng request headers participate in store resolution'
+field_selection:
+  style: native GraphQL selection sets
+  note: 'Sparse fieldsets and expansion are inherent to GraphQL; no separate expand/fields parameter exists.'
+request_tracing:
+  request_id_field: errors[].extensions.requestId
+  request_id_format: UUID
+  operation_id_field: errors[].extensions.operation_id
+  request_header: none observed
+  note: 'A correlation id is returned only on error responses; there is no response header carrying it on success.'
+versioning:
+  scheme: in-schema
+  evidence: >-
+    No version segment in the endpoint path. Versioning is expressed inside the schema
+    itself — offersv2bySourceId / offersv2byStoreId / offersv2byZipcode and OfferV2Response
+    sit beside the v1 offers queries. Deployment version is exposed at
+    https://prod.swiftlyapi.net/health (observed 1.42.3).
+  deprecation: 'GraphQL @deprecated is available in the schema; see lifecycle/swiftly-lifecycle.yml'
+error_envelope:
+  see: errors/swiftly-problem-types.yml
+  shape: 'HTTP 200 + {"errors":[{message, locations, path, extensions}]}'
+  rfc9457: false
+rate_limiting:
+  signaling: none observed
+  evidence: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header was returned on any observed
+    response, and no rate-limit policy is published.
+security_headers_observed:
+  strict-transport-security: max-age=15724800; includeSubDomains
+  x-content-type-options: nosniff
+  x-frame-options: DENY
+  referrer-policy: no-referrer
+  cache-control: no-cache, no-store, max-age=0, must-revalidate
+cors:
+  allow_credentials: true
+  note: >-
+    The preflight response REFLECTS whatever Origin and Access-Control-Request-Headers are
+    sent (https://example.invalid was echoed back as allow-origin) rather than enforcing an
+    allowlist, while also setting Access-Control-Allow-Credentials: true. Recorded as
+    observed behaviour, not as a Swiftly claim.
+cross_links:
+  authentication: authentication/swiftly-authentication.yml
+  errors: errors/swiftly-problem-types.yml
+  lifecycle: lifecycle/swiftly-lifecycle.yml
+  data_model: data-model/swiftly-data-model.yml

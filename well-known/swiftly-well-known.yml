@@ -1,0 +1,41 @@
+generated: '2026-08-05'
+method: probed
+source: live probes of every Swiftly host found in apis.yml
+summary: >-
+  No /.well-known/ discovery document is published on any Swiftly host. Every probe below
+  returned a genuine 404 (text/plain "Not found" on swiftly.com; nginx 404 on the API
+  edge) rather than a soft-404 HTML shell, so these are real absences and not a crawl
+  artifact. No pointer of type WellKnown or SecurityTxt is wired in apis.yml because
+  nothing is present to point at.
+hosts:
+- host: https://swiftly.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /robots.txt, status: 200, note: 'User-agent: * / Allow: / — no AI-agent directives'}
+  - {path: /sitemap.xml, status: 200, note: '~290 URLs, none developer- or API-related'}
+- host: https://prod.swiftlyapi.net
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+  - {path: /swagger.json, status: 404}
+  - {path: /v3/api-docs, status: 404}
+  - {path: /health, status: 200, note: 'returns {commit, status, version} — see lifecycle/'}
+  - {path: /graphql, status: 200, note: 'anonymous introspection enabled — see graphql/'}
+- host: https://sm.swiftlyapi.net
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+  - {path: /graphql, status: 200, note: 'same schema as prod.swiftlyapi.net (retailer-scoped edge)'}

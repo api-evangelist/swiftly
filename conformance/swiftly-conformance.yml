@@ -1,0 +1,63 @@
+generated: '2026-08-05'
+method: derived
+source: graphql/swiftly-shopper-introspection.json + live probes of https://prod.swiftlyapi.net
+standards:
+- id: graphql
+  conforms: true
+  evidence: 'Spec-compliant GraphQL service — introspection returns __schema with 308 types, Query and Mutation root types, and standard GraphQL validation errors.'
+- id: graphql-introspection
+  conforms: true
+  evidence: 'Anonymous introspection enabled at https://prod.swiftlyapi.net/graphql (HTTP 200).'
+- id: graphql-over-http
+  conforms: true
+  evidence: 'POST application/json with {query}; responses are application/json.'
+- id: openapi
+  conforms: false
+  evidence: 'No OpenAPI/Swagger document at /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /v3/api-docs, /api-docs, /docs or /redoc on any Swiftly host (all 404).'
+- id: asyncapi
+  conforms: false
+  evidence: 'No event, streaming, webhook or subscription surface. The GraphQL schema declares no subscription root type.'
+- id: oauth2
+  conforms: false
+  evidence: 'No oauth2 flows documented; no /.well-known/oauth-authorization-server (404). Auth observed is a tenant apiKey header plus an opaque shopper bearer token.'
+- id: oidc
+  conforms: false
+  evidence: 'No /.well-known/openid-configuration on any host (404).'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 'Errors use the GraphQL errors[] envelope over HTTP 200; no application/problem+json.'
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: '/.well-known/security.txt returns 404 on swiftly.com, prod.swiftlyapi.net and sm.swiftlyapi.net.'
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: 'No Sunset or Deprecation response header observed; deprecation is signalled only via the GraphQL @deprecated directive.'
+- id: rfc9111-http-caching
+  conforms: partial
+  evidence: 'GraphQL responses set cache-control: no-cache, no-store, must-revalidate — explicitly uncacheable.'
+- id: hsts
+  conforms: true
+  evidence: 'strict-transport-security: max-age=15724800; includeSubDomains on prod.swiftlyapi.net; max-age=31536000 on swiftly.com.'
+- id: dnssec
+  conforms: false
+  evidence: 'Neither swiftly.com nor swiftlyapi.net is DNSSEC-signed (see security/swiftly-domain-security.yml).'
+- id: dmarc
+  conforms: partial
+  evidence: 'swiftly.com publishes SPF and DMARC at p=none (monitor only); swiftlyapi.net publishes neither.'
+- id: idempotency
+  conforms: false
+  evidence: 'No idempotency key argument, input field or header anywhere in the schema; see conventions/swiftly-conventions.yml.'
+- id: pagination
+  conforms: partial
+  evidence: 'offset/limit/size on the offers and deals queries, an opaque cookie continuation on products, pageToken on challenges. No Relay Connection pattern; three inconsistent styles.'
+compliance_program:
+  published: false
+  note: >-
+    A Thoropass-hosted trust center exists at https://trust.swiftly.com/ but its contents
+    are not anonymously readable (see security/swiftly-trust-center.yml), so no
+    certification can be verified. No Compliance pointer is wired in apis.yml — presence of
+    a trust center is not evidence of a named certification.
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://prod.swiftlyapi.net/graphql
+  http_status: 200

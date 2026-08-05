@@ -1,0 +1,65 @@
+generated: '2026-08-05'
+method: probed
+source: >-
+  live probes of https://prod.swiftlyapi.net/graphql plus the first-party Swiftly web
+  client bundle shipped on savemart.com (a Swiftly-built storefront)
+docs: null
+docs_note: >-
+  Swiftly publishes no authentication documentation. There is no developer portal, no
+  API reference and no /.well-known/openid-configuration or
+  /.well-known/oauth-authorization-server on any Swiftly host (both 404). Everything
+  below was observed from live responses and from the JavaScript Swiftly ships to
+  shopper browsers — it is not a provider claim.
+summary:
+  types: [apiKey, http]
+  api_key_in: [header]
+  oauth2_flows: []
+  anonymous_introspection: true
+schemes:
+- name: SwiftlyAccountKey
+  type: apiKey
+  in: header
+  parameter_name: X-Swiftly-Account-Key
+  description: >-
+    Per-tenant (retailer chain) key the Swiftly client sends on every GraphQL call. Without
+    a chain context the API returns
+    "IllegalStateException: Chain not available in session context".
+  evidence: >-
+    Header literal "X-Swiftly-Account-Key" found in
+    https://savemart.com/build/entry.client-UHAB2OGQ.js (Swiftly-built storefront)
+  sources: [graphql/swiftly-shopper.graphql]
+- name: BearerToken
+  type: http
+  scheme: bearer
+  description: >-
+    Shopper-scoped access token carried in the Authorization header. Required for
+    shopper-account, loyalty-account and reward mutations. Anonymous calls to those
+    fields return "InvalidTokenException: Invalid access token."
+  evidence: >-
+    POST {getShopperAccount(swiftlyShopperId:"test"){__typename}} to
+    https://prod.swiftlyapi.net/graphql returned InvalidTokenException (HTTP 200,
+    GraphQL errors[])
+  sources: [graphql/swiftly-shopper.graphql]
+context_headers:
+- name: X-Swiftly-Account-Key
+  purpose: retailer chain / tenant selection
+- name: X-Swiftly-User-Agent
+  purpose: client identification
+- name: X-Swiftly-Lat
+  purpose: shopper latitude, used for store resolution
+- name: X-Swiftly-Lng
+  purpose: shopper longitude, used for store resolution
+open_surface:
+  introspection: true
+  note: >-
+    GraphQL introspection is enabled for anonymous callers and returns the full 308-type
+    schema (45 queries, 11 mutations). Schema discovery therefore requires no credential;
+    data access does.
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://prod.swiftlyapi.net/graphql
+  http_status: 200
+  probes:
+  - {url: 'https://prod.swiftlyapi.net/.well-known/openid-configuration', http_status: 404}
+  - {url: 'https://prod.swiftlyapi.net/.well-known/oauth-authorization-server', http_status: 404}
+  - {url: 'https://swiftly.com/.well-known/openid-configuration', http_status: 404}

@@ -1,0 +1,2690 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+enum ActionPacingUnit {
+  SEC
+  MIN
+  HR
+  DAY
+  WEEK
+  MONTH
+}
+
+enum ActionPayloadType {
+  INT
+  STRING
+}
+
+enum ActionTrigger {
+  COUPON_CLIP
+  SL_ADD
+  PLP_VIEW
+  SEARCH
+  SCAN
+  FLYER_OPEN
+  WALLET_VIEW
+  HOME_VIEW
+}
+
+enum ActionType {
+  NPS
+  PROMPT
+}
+
+enum AdActionType {
+  NONE
+  NAVIGATE_URL
+  NAVIGATE_DEEP
+}
+
+enum AdCapabilityPackId {
+  AD_MIN
+  AD_2020_4_01
+  AD_2020_4_02
+  AD_PANTHER_1
+  AD_BOBCAT_1
+  AD_CARACAL_1
+}
+
+enum BarcodeSymbology {
+  Unknown
+  UPC_A
+  UPC_E
+  EAN_8
+  EAN_13
+  ITFCartonCode_Gtin14
+  QRCode
+  CODE_39
+}
+
+enum BusinessStatus {
+  OPEN
+  CLOSED_PERMANENTLY
+  CLOSED_TEMP
+}
+
+enum CarouselRandomizationStyle {
+  FIXED
+  RANDOM
+  LAST_FIXED
+}
+
+enum ChallengeProgressStatus {
+  """The Shopper hasn't activated the challenge"""
+  Inactive
+  """The Shopper has activated the challenge"""
+  Active
+  """The shopper has activated and completed the goal for this challenge"""
+  Complete
+  """The shopper has activated the challenge, and it expired before it was completed"""
+  Incomplete
+}
+
+enum ChallengeStatus {
+  """The Challenge is not currently available for activation"""
+  Unavailable
+  """The Challenge is available for activation"""
+  Available
+  """The Challenge has expired and is not available for activation"""
+  Expired
+}
+
+enum ClipType {
+  LOAD_TO_CARD
+  CONSUMER_CLIP
+  REDEMPTION_TIME_CLIP
+  NO_CLIP
+  NONE
+}
+
+enum CostType {
+  FixedCost
+}
+
+enum Currency {
+  Dollar
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum Denomination {
+  Dollar
+  Cent
+}
+
+"""In some scenarios we need to know if it was a percent discount or a fixed discount for the purposes of rendering the price tag"""
+enum FamilyDollarDiscountType {
+  """com.swiftly.graphql.sdk.schema.model.product.Price is reduced by a fixed amount."""
+  FixedDiscount
+  """com.swiftly.graphql.sdk.schema.model.product.Price is reduced by a fixed percent."""
+  PercentDiscount
+}
+
+enum FundingType {
+  MANUFACTURER_FUNDED
+  MANUFACTURER_FUNDED_THROUGH_AGENT
+  STORE_FUNDED
+  STORE_TRADE_FUNDED
+  DO_NOT_CLEAR
+  UNKNOWN
+}
+
+enum ImageDensity {
+  OneX
+  TwoX
+  ThreeX
+  MDPI
+  HDPI
+  XHDPI
+  XXHDPI
+  XXXHDPI
+}
+
+enum ImageUse {
+  Detail
+  Thumbnail
+}
+
+enum LaneStatus {
+  NOT_AVAILABLE
+  CLOSED
+  OPEN
+  CLOSING
+  LIMITED
+}
+
+enum LoyaltyIdFormat {
+  UNKNOWN
+  PHONE
+  TEXT
+  FIXED_LENGTH
+}
+
+enum LoyaltyProgramAccountStatus {
+  Active
+  Inactive
+}
+
+enum LoyaltySummaryPointsSource {
+  UNKNOWN
+  EXPIRING_POINTS
+}
+
+enum MobileAppType {
+  SHOPPER_IOS
+  SHOPPER_ANDROID
+}
+
+enum NoticeType {
+  CAProp65Warning
+}
+
+enum NotificationCriteria {
+  NONE
+  SHOPPER_ACTIVITY
+  SHOPPER_SWIFTLANE
+}
+
+enum NotificationMethod {
+  NONE
+  SMS
+  VOICE
+}
+
+enum OfferAction {
+  CLAIMED
+  REDEEMED
+  OFFERED
+  DECLINED
+  LOYALTY_REWARD_ACCEPTED
+}
+
+enum OfferIssuerType {
+  MANUFACTURER
+  RETAILER
+}
+
+enum OfferTemporalStatus {
+  UNKNOWN
+  PENDING
+  NEW
+  AVAILABLE
+  EXPIRES_SOON
+  EXPIRED
+}
+
+enum OfferType {
+  CENTS_OFF
+  COMPOUND_CENTS_OFF
+  BOGO
+  FREE
+  ORDER_TOTAL
+  FIXED_PRICE
+  COMPOUND_FIXED_PRICE
+  PERCENT_OFF
+}
+
+enum OfferValueType {
+  CENTS_OFF
+  PERCENT_OFF
+  POINTS
+}
+
+enum PriceModel {
+  """The price model is unknown."""
+  Unknown
+  """The price model is not supported for the requested client."""
+  NotSupported
+  """com.swiftly.service.graphql.schema.viewmodel.product.Price is fixed amount. $1"""
+  FixedPrice
+  """Discount is fixed amount. $1 off"""
+  FixedDiscount
+  """Discount is some percent. 10% off."""
+  PercentDiscount
+  """com.swiftly.service.graphql.schema.viewmodel.product.Price is a split price (buy X for fixed price of Y). Shopper may have to meet eligibility requirements to qualify for the fixed price."""
+  SplitPriceFixedPrice
+  """Buy 3 and get $1 off"""
+  SplitFixedDiscount
+  """Buy 3 and get 10% off"""
+  SplitPercentDiscount
+  """Buy X at price, Get Y. Often referred to as BOGO."""
+  BuyGetFixedPrice
+  """Buy X at price, Get Y at a Fixed Discount."""
+  BuyGetFixedDiscount
+  """Buy X at price, Get Y at some Percent Discount."""
+  BuyGetPercentDiscount
+  """Buy X of any of a qualifying set of products and Get Y for fixed price ."""
+  BuyGetMixAndMatchFixedPrice
+  """Buy X of any of a qualifying set of products and Get Y at a Fixed Discount."""
+  BuyGetMixAndMatchFixedDiscount
+  """Buy X of any of a qualifying set of products and Get Y at some Percent Discount."""
+  BuyGetMixAndMatchPercentDiscount
+  """All qualifying products are being sold for a fixed price."""
+  MixAndMatchFixedPrice
+  """Buy X of any of a qualifying set of products for fixed price of Y."""
+  MixAndMatchSplitPriceFixedPrice
+  """All qualifying products are being given a fixed discount."""
+  MixAndMatchFixedDiscount
+  """All qualifying products are being a percent off."""
+  MixAndMatchPercentDiscount
+}
+
+"""A pricing scenario is a unique combination of price type, sold by, and price model"""
+enum PriceScenario {
+  Unknown
+  RegularPerUnitFixedPrice
+  RegularPerUnitSplitPriceFixedPrice
+  PromotionPerUnitSplitPriceFixedPrice
+  PromotionPerUnitMixAndMatchSplitPriceFixedPrice
+  PromotionPerUnitFixedPrice
+  PromotionPerUnitPercentDiscount
+  PromotionPerUnitFixedDiscount
+  PromotionPerUnitBuyGetFixedDiscount
+  PromotionPerUnitBuyGetPercentDiscount
+  PromotionPerUnitBuyGetFixedPrice
+  PromotionPerUnitBuyGetMixAndMatchFixedPrice
+  PromotionPerUnitBuyGetMixAndMatchFixedDiscount
+  PromotionPerUnitBuyGetMixAndMatchPercentDiscount
+  PromotionPerUnitMixAndMatchFixedDiscount
+  PromotionPerUnitMixAndMatchFixedPrice
+  PromotionPerUnitMixAndMatchPercentDiscount
+}
+
+enum PriceScenarioType {
+  Regular
+  Promotion
+  MixAndMatch
+}
+
+enum PriceType {
+  Unknown
+  Regular
+  Promotion
+}
+
+"""
+Product Filter Condition
+    EQ -> Equal
+    NE -> Not Equal
+    Note: Only EQ is supported at this time
+"""
+enum ProductFilterCondition {
+  EQ
+  NE
+}
+
+"""
+Product fields that support filtering. 
+    Type Designators: 
+        I = integer,
+        S = string,
+        B = boolean
+    Note: repeating designators (_II, _SS) indicate that the filter can be multi-valued (["Gain", "Colgate"])
+"""
+enum ProductFilterableField {
+  COUPON_IDS_II
+  CATEGORIES_SS
+  MIX_MATCHES_II
+  PRODUCT_IDS_SS
+  BRANDS_SS
+  HAS_PROMO_B
+  IN_STOCK_B
+  STORE_IDS
+  ELIGIBILITIES_SS
+}
+
+enum ProductPriceErrorType {
+  Error
+  StoreNotSelected
+}
+
+"""The set of values that products can be sorted on."""
+enum ProductSortDimension {
+  AlphaAsc
+  AlphaDesc
+  Featured
+  PriceAsc
+  PriceDesc
+}
+
+enum PromotedOfferBadge {
+  NONE
+  FEATURED
+}
+
+enum RetailerCategoryDisplayIntent {
+  HIDE_EMPTY
+  SHOW_ALWAYS
+}
+
+enum RewardProvisioningStatus {
+  UNKNOWN
+  PROVISIONING
+  PROVISIONED
+  DEPROVISIONING
+  DEPROVISIONED
+  REDEEMED
+  EXPIRED
+}
+
+enum RewardStatus {
+  UNKNOWN
+  AVAILABLE
+  EXPIRED
+}
+
+enum SavingsType {
+  FixedSavings
+}
+
+enum ShopperOfferSource {
+  DEFAULT
+  LOYALTY_REWARD
+}
+
+"""An enumeration identifying how an item’s pricing is determined."""
+enum SoldBy {
+  Unknown
+  """The item is sold per unit."""
+  PerUnit
+  """the item is sold by weight."""
+  ByWeight
+}
+
+"""A sub unit for soldBy"""
+enum SoldByUnit {
+  """Product is soldBy Weight/Pounds"""
+  Pounds
+  """Product is soldBy PerUnit/Each"""
+  Each
+}
+
+enum SortDimensionId {
+  TopDeals
+  MostClipped
+  MostSavings
+  NewestFirst
+  ExpiresSoon
+}
+
+enum StaffedBy {
+  STORE_MANAGER
+  CASHIER
+  OTHER
+}
+
+enum StaffingModel {
+  DEDICATED
+  PARTIAL
+}
+
+enum StoreTransactionClaimStatus {
+  Submitted
+  Accepted
+  Rejected
+}
+
+enum SupportedAdCapabilityPack {
+  NONE
+}
+
+enum SupportedDealType {
+  OFFER
+  PRODUCT
+}
+
+enum SwiftlyDeviceClass {
+  PHONE
+  TABLET
+  DESKTOP
+}
+
+enum SwiftlyImageDensity {
+  OneX
+  OnePointFiveX
+  TwoX
+  ThreeX
+  FourX
+}
+
+enum SwiftlyService {
+  SWIFTLANE
+  LOYALTY
+  WILLCALL_PICKUP
+}
+
+enum TaxonomyNodeType {
+  Product
+  Coupon
+}
+
+enum UIDialogDisplayType {
+  TEXT
+  IMAGE
+  BUTTON
+}
+
+enum UIDialogType {
+  NONE
+  TIME_PROGRESS_INDICATOR
+}
+
+input AdParamInput {
+  key: String!
+  value: String!
+}
+
+input ChallengesCriteriaInput {
+  """List of specific challenge ids to retrieve. Return all active challenges if null"""
+  challengeIds: [String!]
+  """Max number of challenges to return. Default value is 25 if null"""
+  maxItems: Int
+  """Used to request multiple pages of results. If a previous request has a pageToken value, add it here to get the next page of results."""
+  pageToken: String
+}
+
+input KeyValuePairInput {
+  key: String!
+  value: String!
+}
+
+input KeywordSearchFilterInput {
+  """The keyword search term to filter on. Example: food"""
+  keyword: String!
+}
+
+input MixAndMatchFilterInput {
+  """Filter by products that are part of this mix and match group."""
+  mixAndMatchId: String!
+}
+
+input ProductCategoryFilterInput {
+  """The product category to filter on."""
+  taxonomyId: String!
+}
+
+input ProductCouponFilterInput {
+  """Filter by products associated with this coupon."""
+  couponId: String!
+}
+
+"""
+Filter product search results by field values.
+    For example: HAS_EBT_B (field) + EQ (condition) + ["true"] (values)
+    OR: BRANDS_SS (field) + EQ (condition) + ["Gain", "Colgate"] (values)
+"""
+input ProductFieldFilterInput {
+  """Matching condition"""
+  condition: ProductFilterCondition!
+  """Product field to filter on"""
+  field: ProductFilterableField!
+  """Values to match against"""
+  values: [String!]!
+}
+
+input ProductIdFilterInput {
+  """Filter products by ProductId"""
+  plu: String!
+}
+
+"""At least one matcher MUST be supplied!"""
+input ProductMatchInput {
+  categories: [ProductCategoryFilterInput!]
+  coupons: [ProductCouponFilterInput!]
+  fieldFilters: [ProductFieldFilterInput!]
+  mixAndMatch: MixAndMatchFilterInput
+  productIds: [ProductIdFilterInput!]
+  search: KeywordSearchFilterInput
+}
+
+input ShopperAttributesInput {
+  city: String
+  dob: LocalDate
+  email: String
+  givenName: String
+  loyaltyProCardId: String
+  optInEmail: Boolean
+  optInOver21: Boolean
+  optInPush: Boolean
+  paypalEmail: String
+  phone: String
+  selectedStore: String
+  state: String
+  street: String
+  surName: String
+  zipCode: String
+}
+
+interface AdDTO implements ContentBodyDTO & WithAdTelemetry {
+  height: Int!
+  width: Int!
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  pid: String!
+  type: String!
+  version: String!
+}
+
+"""Type class of any sort of category preview (e.g. ProductCategoryPreview or DealsCategoryPreview."""
+interface CategoryPreview {
+  """Ads for the category preview."""
+  ads: [AdWithPlacement!]!
+  """Id of the category being previewed."""
+  categoryId: String!
+}
+
+interface CollectionAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  placements: [PlacementDTO!]!
+  subtitle: String!
+  title: String!
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+interface ContentBodyDTO implements WithAdTelemetry {
+  aid: String!
+  aiid: UUID!
+  pid: String!
+  type: String!
+  version: String!
+  adTelemetry: AdTelemetry!
+}
+
+interface Cost {
+  purchaseQuantity: String
+  totalCost: Money
+  type: CostType!
+}
+
+interface DeprecatedAdPlacement {
+  placementId: String!
+}
+
+interface FlattenedAdList {
+  adList: [AdWithPlacement!]!
+  carouselCollectionList: [CarouselCollectionDTO!]!
+  imageAdList: [ImageAdDTO!]!
+  imageCarouselAdList: [ImageCarouselAdDTO!]!
+  layoutAdList: [LayoutAdDTO!]!
+  layoutCollectionList: [LayoutCollectionDTO!]!
+  listCollectionList: [ListCollectionDTO!]!
+  namedAdList: [NamedControlAdDTO!]!
+  offerAdList: [OfferAdDTO!]!
+  roundedImageAdList: [RoundedImageAdDTO!]!
+  roundedImageCarouselAdList: [RoundedImageCarouselAdDTO!]!
+}
+
+interface IDog {
+  breed: String!
+}
+
+interface ItemSummary {
+  """The id of the item summary."""
+  id: String!
+  """The display name of the summary type."""
+  title: String!
+  """The type of the item summary"""
+  type: String!
+}
+
+interface LeafPlacementDTO implements PlacementDTO {
+  adRef: String
+  height: Int!
+  id: String!
+  width: Int!
+}
+
+interface OfferDecorator {
+  priority: Int!
+  type: String!
+}
+
+interface PlacementDTO {
+  height: Int!
+  id: String!
+  width: Int!
+}
+
+interface Price {
+  base: PriceModelProperties
+  cost: Cost
+  info: [PriceInfo!]!
+  mixAndMatchId: String
+  promotion: PriceModelProperties
+  savings: Savings
+  scenario: PriceScenarioType!
+  soldBy: SoldBy!
+  unit: SoldByUnit!
+}
+
+interface PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int
+  getQuantity: Int
+  model: PriceModel!
+  percentOff: String
+  price: Money
+  type: PriceType!
+}
+
+interface SLPItemDTO {
+  type: String!
+}
+
+interface Savings {
+  percentSaved: String
+  savingsQuantity: String
+  totalSavingsAmount: Money
+  type: SavingsType!
+}
+
+interface SearchFacet {
+  displayName: String!
+  field: ProductFilterableField!
+}
+
+interface SortableContent {
+  sortGroups: [SortGroup!]!
+}
+
+interface StoreEntry {
+  accessibility: [String!]!
+  address1: String!
+  address2: String
+  amenities: [String!]!
+  chainId: UUID!
+  city: String!
+  country: String!
+  departmentDetails: [StoreDetails!]!
+  isOpenNow: Boolean!
+  language: [String!]!
+  latitude: BigDecimal!
+  longitude: BigDecimal!
+  number: Int!
+  payments: [String!]!
+  postalCode: String!
+  primaryDetails: StoreDetails!
+  shoppingModes: [String!]!
+  state: String!
+  storeId: UUID!
+  swiftlyServices: [SwiftlyService!]!
+  timeZone: String!
+}
+
+interface WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+}
+
+type ActionPayload {
+  key: String!
+  type: ActionPayloadType!
+  value: String!
+}
+
+type ActiveDate {
+  date: LocalDate!
+  time: LocalTime
+}
+
+type ActiveThrough {
+  end: ActiveDate!
+  start: ActiveDate!
+}
+
+type AdAction {
+  action: AdActionType!
+  name: String!
+  target: String!
+}
+
+type AdRefList implements FlattenedAdList {
+  adList: [AdWithPlacement!]!
+  adRef: String!
+  """[IOS ONLY] List of CarouselCollection Ads on this screen"""
+  carouselCollectionList: [CarouselCollectionDTO!]!
+  """[IOS ONLY] List of Full Bleed ImageAds on this screen"""
+  imageAdList: [ImageAdDTO!]!
+  """[IOS ONLY] List of Full Bleed ImageCarouselAds on this screen (UNUSED)"""
+  imageCarouselAdList: [ImageCarouselAdDTO!]!
+  """[IOS ONLY] List of LayoutAds on this screen"""
+  layoutAdList: [LayoutAdDTO!]!
+  """[IOS ONLY] List of LayoutCollection Ads on this screen"""
+  layoutCollectionList: [LayoutCollectionDTO!]!
+  """[IOS ONLY] List of ListCollection Ads on this screen"""
+  listCollectionList: [ListCollectionDTO!]!
+  """[IOS ONLY] List of NamedControlAds on this screen"""
+  namedAdList: [NamedControlAdDTO!]!
+  """[IOS ONLY] List of OfferAds on this screen"""
+  offerAdList: [OfferAdDTO!]!
+  """[IOS ONLY] List of Rounded ImageAds on this screen"""
+  roundedImageAdList: [RoundedImageAdDTO!]!
+  """[IOS ONLY] List of Rounded ImageCarouselAds on this screen"""
+  roundedImageCarouselAdList: [RoundedImageCarouselAdDTO!]!
+}
+
+type AdSLPItemDTO implements SLPItemDTO {
+  adRef: String
+  placement: String!
+  title: String
+  type: String!
+  url: String
+}
+
+type AdTelemetry {
+  aid: String!
+  aiid: String!
+  dimensions: [AdTelemetryDimension!]!
+}
+
+type AdTelemetryDimension {
+  key: String!
+  value: String!
+}
+
+type AdWithPlacement {
+  ad: AdDTO!
+  placementId: String!
+  position: String
+}
+
+type AppCompatibilityCheckResult {
+  minimumVersion: String!
+  minimumVersionMet: Boolean!
+  recommendedVersion: String!
+  recommendedVersionMet: Boolean!
+}
+
+type AppConfigEntry {
+  type: String!
+  value: String!
+}
+
+type BaseOfferParameters {
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type BaseStoreEntry implements StoreEntry {
+  accessibility: [String!]!
+  address1: String!
+  address2: String
+  amenities: [String!]!
+  chainId: UUID!
+  city: String!
+  country: String!
+  departmentDetails: [StoreDetails!]!
+  isOpenNow: Boolean!
+  language: [String!]!
+  latitude: BigDecimal!
+  longitude: BigDecimal!
+  number: Int!
+  payments: [String!]!
+  postalCode: String!
+  primaryDetails: StoreDetails!
+  shoppingModes: [String!]!
+  state: String!
+  storeId: UUID!
+  swiftlyServices: [SwiftlyService!]!
+  timeZone: String!
+}
+
+type BasicOfferDecorator implements OfferDecorator {
+  priority: Int!
+  type: String!
+}
+
+type BoGoParameters {
+  buyQuantity: Int
+  getQuantity: Int!
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type BrandingResponse {
+  chainImageUrl: String!
+}
+
+type BuyGetFixedDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money!
+  buyQuantity: Int!
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String
+  price: Money
+  type: PriceType!
+}
+
+type BuyGetFixedPrice implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int!
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String
+  price: Money!
+  type: PriceType!
+}
+
+type BuyGetPercentDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int!
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String!
+  price: Money
+  type: PriceType!
+}
+
+type CarouselCollectionDTO implements CollectionAdDTO & AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  placements: [CarouselPlacementDTO!]!
+  randomizationStyle: CarouselRandomizationStyle!
+  subtitle: String!
+  title: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type CarouselPage {
+  durationMs: Int!
+  imageAsset: ImageAsset!
+}
+
+type CarouselPlacementDTO implements LeafPlacementDTO & PlacementDTO {
+  adRef: String
+  displayDurationMs: Int!
+  height: Int!
+  id: String!
+  width: Int!
+}
+
+type CategoryDetails implements FlattenedAdList {
+  """List of all ads present on this screen.  Lookup ad ref/ids for Ad data here"""
+  adList: [AdWithPlacement!]!
+  """[IOS ONLY] List of CarouselCollection Ads on this screen"""
+  carouselCollectionList: [CarouselCollectionDTO!]!
+  """ID of the Ad to display at the bottom of the screen"""
+  heroBottomAdRef: String!
+  """ID of the Ad to display at the top of the screen"""
+  heroTopAdRef: String!
+  """[IOS ONLY] List of Full Bleed ImageAds on this screen"""
+  imageAdList: [ImageAdDTO!]!
+  """[IOS ONLY] List of Full Bleed ImageCarouselAds on this screen (UNUSED)"""
+  imageCarouselAdList: [ImageCarouselAdDTO!]!
+  """[IOS ONLY] List of LayoutAds on this screen"""
+  layoutAdList: [LayoutAdDTO!]!
+  """[IOS ONLY] List of LayoutCollection Ads on this screen"""
+  layoutCollectionList: [LayoutCollectionDTO!]!
+  """[IOS ONLY] List of ListCollection Ads on this screen"""
+  listCollectionList: [ListCollectionDTO!]!
+  """[IOS ONLY] List of NamedControlAds on this screen"""
+  namedAdList: [NamedControlAdDTO!]!
+  """[IOS ONLY] List of OfferAds on this screen"""
+  offerAdList: [OfferAdDTO!]!
+  """Deprecated: Do not use.  Promoted Offers will be handled by an entirely new system soon"""
+  promotedOffers: [PromotedOffer!]! @deprecated
+  """[IOS ONLY] List of Rounded ImageAds on this screen"""
+  roundedImageAdList: [RoundedImageAdDTO!]!
+  """[IOS ONLY] List of Rounded ImageCarouselAds on this screen"""
+  roundedImageCarouselAdList: [RoundedImageCarouselAdDTO!]!
+}
+
+type CentsOffParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type Chain {
+  branding: BrandingResponse!
+  configuration: ChainConfiguration!
+}
+
+type ChainConfiguration {
+  accessibility: [ChainConfigurationImageMapping!]!
+  amenities: [ChainConfigurationImageMapping!]!
+  defaultTimeZone: String
+  productEligibilities: [ChainConfigurationImageMapping!]!
+  shopperAppAndroidMinimumVersion: String
+  shopperAppAndroidRecommendedVersion: String
+  shopperAppiOSMinimumVersion: String
+  shopperAppiOSRecommendedVersion: String
+  swiftlyServices: [ChainConfigurationImageMapping!]!
+  version: String!
+}
+
+type ChainConfigurationImageMapping {
+  accessibilityString: String
+  displayString: String!
+  id: String!
+  imageIdentifier: String
+}
+
+type Challenge {
+  """Image for active challenges"""
+  activeImage: ImageRef!
+  """The identifier for the challenge. May only contain lowercase, digits and select url-safe characters"""
+  challengeId: String!
+  """Image for challenge details"""
+  detailImage: ImageRef!
+  """Main display name for the challenge"""
+  displayName: String!
+  """The last date the challenge will be available"""
+  endDate: LocalDate
+  """Primary image for non-activated challenges"""
+  primaryImage: ImageRef!
+  """details on the challenge progress. Null when not active"""
+  progress: ChallengeProgress
+  """Status of the challenge based on the current date and other criteria"""
+  status: ChallengeStatus!
+  """Subtitle for the challenge"""
+  subtitle: String!
+  """Challenge terms and conditions"""
+  termsAndConditions: String!
+}
+
+type ChallengeProgress {
+  """The date after which this challenge expires"""
+  expires: LocalDate
+  """The value to reach to complete the challenge"""
+  goal: BigDecimal!
+  """The units for progress. e.g. pies, items, $"""
+  metric: String!
+  """The shoppers status toward this goal"""
+  status: ChallengeProgressStatus!
+  """The amount shopper has earned toward this challenge"""
+  total: BigDecimal!
+}
+
+type ChallengesQueryResult {
+  """List of challenge records"""
+  items: [Challenge!]!
+  """Null if there are no more results. Otherwise, pass value on another call to get next page"""
+  pageToken: String
+}
+
+type ClientAction {
+  actionId: UUID!
+  actionTrigger: ActionTrigger!
+  actionType: ActionType!
+  bannerId: String!
+  correlationId: String!
+  expiration: Date!
+  pacingThreshold: Int!
+  pacingUnit: ActionPacingUnit!
+  payload: [ActionPayload!]!
+}
+
+type ClientPriceRowData {
+  CatalogVersion: String!
+  EffectiveDate: Float
+  ExpirationDate: Float
+  ForAmount: Int
+  FulfillmentType: Byte!
+  OverrideAllOtherPricesForThisPlu: Boolean!
+  PLUString: String!
+  Price: String
+  PriceLevel: Byte!
+  PriceVersion: Long!
+  QuantityLimit: Int!
+  ShopperPriceType: Byte!
+  SplitPriceOfferPrice: String
+  SplitPriceQuantityLimitIncludesAllItemsInCalculations: Boolean!
+  SplitPriceSinglesAtRegularPrice: Boolean!
+  SplitPriceSinglesOverSplitPriceQuantityAtRegularPrice: Boolean!
+  StoreTaxRate: String
+}
+
+type CommonResourceImage {
+  altText: String!
+  default: Boolean!
+  urls: [SwiftlyImageDensityUrl!]!
+  use: ImageUse!
+}
+
+type CommonRetailerCategory {
+  altText: String!
+  displayIntent: RetailerCategoryDisplayIntent
+  displayName: String!
+  endDate: OffsetDateTime
+  id: String!
+  images: [CommonResourceImage!]!
+  liveDate: OffsetDateTime
+  ordinal: Int!
+  previewDisplayOrder: Int
+}
+
+type CompleteAgeVerificationMutationResponse {
+  account: ShopperAccount
+  passed: Boolean!
+}
+
+type CompoundCentsOffParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type CompoundFixedPriceParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type ContactNumber {
+  displayName: String!
+  imageId: String!
+  intention: String!
+  value: String!
+}
+
+type CouponCategoryPreview implements CategoryPreview {
+  """Ads for the category preview."""
+  ads: [AdWithPlacement!]!
+  """Id of the category being previewed."""
+  categoryId: String!
+  """Curated list of coupons."""
+  deals: [Deal!]!
+}
+
+type DealsCategoryPreview {
+  category: RetailerCategory!
+  deals: [Deal!]!
+  heroPlacement: DeprecatedAdPlacement
+  ordinal: Int!
+}
+
+type DealsHome implements FlattenedAdList {
+  """List of all ads present on this screen.  Lookup ad ref/ids for Ad data here"""
+  adList: [AdWithPlacement!]!
+  """[IOS ONLY] List of CarouselCollection Ads on this screen"""
+  carouselCollectionList: [CarouselCollectionDTO!]!
+  """All relevant Categories"""
+  categories: [RetailerCategory!]!
+  """ID of the Ad to display at the bottom of the screen"""
+  heroBottomAdRef: String!
+  """ID of the Ad to display at the top of the screen"""
+  heroTopAdRef: String!
+  """[IOS ONLY] List of Full Bleed ImageAds on this screen"""
+  imageAdList: [ImageAdDTO!]!
+  """[IOS ONLY] List of Full Bleed ImageCarouselAds on this screen (UNUSED)"""
+  imageCarouselAdList: [ImageCarouselAdDTO!]!
+  """[IOS ONLY] List of LayoutAds on this screen"""
+  layoutAdList: [LayoutAdDTO!]!
+  """[IOS ONLY] List of LayoutCollection Ads on this screen"""
+  layoutCollectionList: [LayoutCollectionDTO!]!
+  """[IOS ONLY] List of ListCollection Ads on this screen"""
+  listCollectionList: [ListCollectionDTO!]!
+  """[IOS ONLY] List of NamedControlAds on this screen"""
+  namedAdList: [NamedControlAdDTO!]!
+  """[IOS ONLY] List of OfferAds on this screen"""
+  offerAdList: [OfferAdDTO!]!
+  """Previews to be displayed"""
+  previews: [DealsHomePreview!]!
+  """[IOS ONLY] List of Rounded ImageAds on this screen"""
+  roundedImageAdList: [RoundedImageAdDTO!]!
+  """[IOS ONLY] List of Rounded ImageCarouselAds on this screen"""
+  roundedImageCarouselAdList: [RoundedImageCarouselAdDTO!]!
+  """All relevant Sort Dimensions"""
+  sortDimensions: [String!]!
+  """Content to be displayed in Previews"""
+  sortableContent: [SortableContent!]!
+}
+
+type DealsHomeCategory {
+  categoryId: String!
+  displayIntent: RetailerCategoryDisplayIntent
+  ordinal: Int!
+}
+
+type DealsHomeConfigDTO implements ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  pid: String!
+  previewCategories: [DealsHomeCategory!]!
+  type: String!
+  version: String!
+}
+
+type DealsHomePreview {
+  """Category associated with this preview"""
+  category: RetailerCategory!
+  """List of offers for this preview"""
+  deals: [Deal!]!
+  """ID of the Ad to show at the top of this preview"""
+  heroAdRef: String!
+  """Ordinal which defines the display ordering among all previews"""
+  ordinal: Int!
+}
+
+type DefaultLeafPlacementDTO implements LeafPlacementDTO & PlacementDTO {
+  adRef: String
+  height: Int!
+  id: String!
+  width: Int!
+}
+
+type DepartmentList {
+  departments: [String!]!
+}
+
+type DeprecatedAd {
+  width: Int!
+}
+
+type DescribedString {
+  description: String
+  value: String!
+}
+
+"""Allows Ads to appear in Displayable Lists, along with previews"""
+type DisplayableAd {
+  """The 'singleAd' to display"""
+  ad: AdRefList!
+}
+
+type DogSledTeam {
+  dogs: [IDog!]!
+}
+
+type EmptyAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type ExcludeCategoryConfigDTO implements ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  categoryId: String!
+  pid: String!
+  type: String!
+  version: String!
+}
+
+type ExpiringOfferDecorator implements OfferDecorator {
+  expireDate: OffsetDateTime!
+  priority: Int!
+  type: String!
+}
+
+type FDStoreEntry implements StoreEntry {
+  accessibility: [String!]!
+  address1: String!
+  address2: String
+  amenities: [String!]!
+  chainId: UUID!
+  city: String!
+  country: String!
+  departmentDetails: [StoreDetails!]!
+  isHybrid: Boolean!
+  isOpenNow: Boolean!
+  language: [String!]!
+  latitude: BigDecimal!
+  longitude: BigDecimal!
+  number: Int!
+  payments: [String!]!
+  postalCode: String!
+  primaryDetails: StoreDetails!
+  shoppingModes: [String!]!
+  state: String!
+  storeId: UUID!
+  swiftlyServices: [SwiftlyService!]!
+  timeZone: String!
+}
+
+"""The price of a product."""
+type FamilyDollarPriceTag {
+  discountType: FamilyDollarDiscountType
+  finalPrice: PriceDetail
+  finalSavings: SavingsDetail
+  priceUri: String!
+  regularPrice: PriceDetail!
+  scenario: PriceScenario!
+  tags: [Tag!]!
+  termsAndConditions: String
+}
+
+type FeatureToggle {
+  name: String!
+  type: String!
+  value: String!
+}
+
+type FeatureToggleGroup {
+  featureToggles: [FeatureToggle!]!
+  group: String!
+}
+
+type FieldFacet implements SearchFacet {
+  displayName: String!
+  entries: [FieldFacetEntry!]!
+  field: ProductFilterableField!
+}
+
+type FieldFacetEntry {
+  count: Long!
+  entry: String!
+}
+
+type FixedCost implements Cost {
+  purchaseQuantity: String!
+  totalCost: Money!
+  type: CostType!
+}
+
+type FixedDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money!
+  buyQuantity: Int
+  getQuantity: Int
+  model: PriceModel!
+  percentOff: String
+  price: Money
+  type: PriceType!
+}
+
+type FixedPrice implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int
+  getQuantity: Int
+  model: PriceModel!
+  percentOff: String
+  price: Money!
+  type: PriceType!
+}
+
+type FixedPriceParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type FixedSavings implements Savings {
+  percentSaved: String!
+  savingsQuantity: String!
+  totalSavingsAmount: Money!
+  type: SavingsType!
+}
+
+type Flyer {
+  """Date this flyer is visible"""
+  activationDate: String!
+  """Chain ID"""
+  chain: String!
+  """Date this flyer ends"""
+  endDate: String!
+  """Flyer external ID"""
+  externalFlyerId: String
+  """Flyer page image data"""
+  images: [ImageRef!]!
+  """Date this flyer starts"""
+  startDate: String!
+  """Store ID"""
+  store: String!
+  """Flyer title"""
+  title: String
+}
+
+type FreeOfferParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type GraphQLResourceImage {
+  _urls: [SwiftlyImageDensityUrl!]!
+  altText: String!
+  default: Boolean!
+  use: ImageUse
+  urls(densities: [ImageDensity!], swiftlyDensities: [SwiftlyImageDensity!]): [SwiftlyImageDensityUrl!]!
+}
+
+type Husky implements IDog {
+  breed: String!
+  specialHuskyValue: String!
+}
+
+type Image {
+  backgroundColor: String!
+  imageDensity: ImageDensity!
+  purpose: ImageUse!
+  url: String!
+}
+
+type ImageAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  image: ImageAsset!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type ImageAsset {
+  action: AdAction!
+  altText: String!
+  densities: [SwiftlyImageDensityUrl!]!
+  id: String!
+  revision: Int!
+}
+
+type ImageCarouselAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  carousel: [ImageAsset!]!
+  carouselPages: [CarouselPage!]
+  displayDurationMs: Int!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type ImageFile {
+  """The image density of this rendering"""
+  density: SwiftlyImageDensity!
+  """The intended target device for this rendering"""
+  device: SwiftlyDeviceClass!
+  """The URI of the actual image rendering"""
+  uri: String!
+}
+
+type ImageMapping {
+  imageId: Int!
+  purpose: String!
+  storeId: UUID!
+  url: String!
+}
+
+"""Grouping of alternative representations of a single image"""
+type ImageRef {
+  """The alternative text for when the image cannot be displayed"""
+  altText: String
+  """The caption for an image"""
+  caption: String
+  """The type/purpose/role of the image, e.g. thumbnail"""
+  type: ImageType!
+  """The single image representation at the requested density.  If no image is available at the desired density, then null is returned."""
+  image(desiredDensity: SwiftlyImageDensity!): ImageFile
+  """The image representations at different densities.  If no list of desired densities is provided, then all available representations will be returned."""
+  images(desiredDensities: [SwiftlyImageDensity!]): [ImageFile!]! @deprecated
+}
+
+"""The type/purpose/role of an image, e.g. thumbnail"""
+type ImageType {
+  """An explanation of what the image type is for"""
+  description: String!
+  """The canonical height of images of this type, measured in points for a device with 1x density."""
+  height: Int!
+  """The name of the type"""
+  type: String!
+  """The canonical width of images of this type, measured in points for a device with 1x density."""
+  width: Int!
+}
+
+type IssuedReward {
+  barcodeType: BarcodeSymbology!
+  chainProvisioningStatus: RewardProvisioningStatus
+  expiration: DateOrDateTime
+  expiryDateTime: OffsetDateTime @deprecated
+  requestedStoreId: String
+  reward: Reward!
+  rewardInstanceId: String!
+  scannablePayload: String!
+  storeProvisioningStatus: RewardProvisioningStatus
+}
+
+type LayoutAdCol {
+  adRef: String
+  width: Int!
+}
+
+type LayoutAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  rows: [LayoutAdRow!]!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type LayoutAdRow {
+  columns: [LayoutAdCol!]!
+  height: Int!
+}
+
+type LayoutCollectionDTO implements CollectionAdDTO & AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  placements: [LayoutRowPlacementDTO!]!
+  subtitle: String!
+  title: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type LayoutRowPlacementDTO implements PlacementDTO {
+  height: Int!
+  id: String!
+  placements: [DefaultLeafPlacementDTO!]!
+  width: Int!
+}
+
+type ListCollectionDTO implements CollectionAdDTO & AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  placements: [DefaultLeafPlacementDTO!]!
+  subtitle: String!
+  title: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type LocalDateTemporal {
+  localDate: LocalDate!
+}
+
+type LocalDateTimeTemporal {
+  localDateTime: LocalDateTime!
+}
+
+type LoyaltyProgram {
+  account: LoyaltyProgramAccount
+  enrolled: Boolean!
+  programId: String!
+  programName: String!
+}
+
+type LoyaltyProgramAccount {
+  accountId: String!
+  accountStatus: LoyaltyProgramAccountStatus!
+  programId: String!
+}
+
+type LoyaltySummary {
+  availablePoints: Int
+  issuedRewards: [IssuedReward!]! @deprecated
+  ledgerVersion: Long!
+  lifetimeSavingsCents: Int
+  summaryPoints: [LoyaltySummaryPoints!]!
+}
+
+type LoyaltySummaryPoints {
+  expiresOn: String
+  points: Int!
+  source: LoyaltySummaryPointsSource!
+}
+
+type MapCollectionDTO implements CollectionAdDTO & AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  keys: [String!]!
+  pid: String!
+  placements: [MapPlacementDTO!]!
+  subtitle: String!
+  title: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type MapPlacementDTO implements LeafPlacementDTO & PlacementDTO {
+  adRef: String
+  height: Int!
+  id: String!
+  key: String!
+  width: Int!
+}
+
+"""Mobile Client Configuration"""
+type MobileAppConfiguration {
+  slowMovingConfigurations: SlowMovingConfiguration!
+}
+
+type Money {
+  currency: Currency!
+  denomination: Denomination!
+  value: String!
+}
+
+type Mutation {
+  updateShopperAccount(swiftlyShopperId: String!, changes: ShopperAttributesInput!): ShopperAccount!
+  completeAgeVerification(swiftlyShopperId: String!, verificationId: String!, verificationCode: String!): CompleteAgeVerificationMutationResponse!
+  deleteShopperAccount(swiftlyShopperId: String!): ShopperAccount
+  createShopperAccount(swiftlyShopperId: String!, attributes: ShopperAttributesInput!): ShopperAccount!
+  startAgeVerification(swiftlyShopperId: String!): StartAgeVerificationMutationResponse!
+  enrollInLoyaltyProgram(programId: String!, customRetailerProperties: [KeyValuePairInput!]): LoyaltyProgramAccount!
+  purchaseReward(storeId: UUID, userId: UUID!, rewardCanonicalId: String!, loyaltyAccountId: String): PurchaseRewardResponse!
+  claimStoreTransactionFromReceipt(shopperId: UUID!, receiptUniqueId: String!, tenantId: String!): StoreTransactionClaim!
+  claimOffer(offerId: String!): String!
+  declineOffer(offerId: String!): OfferMutationResponse!
+  offerForReward(rewardId: String): OfferMutationResponse!
+}
+
+type NamedControlAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  control: String!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type Notice {
+  """Name of the regulatory agency that issued the notice."""
+  agency: String
+  """Description of the warning. For example 'This product contains phthalates, a chemical known to the state of California to cause cancer, birth defects or other reproductive harm.'"""
+  description: String!
+  """URI to additional details associated with the notice."""
+  detailsUri: String
+  """Images associated with the Notice."""
+  images: [ImageRef!]!
+  """Title or the regulatory warning. For example “California Prop 65 Warning."""
+  title: String
+  """The type of notice."""
+  type: NoticeType!
+}
+
+type NotificationContact {
+  number: String!
+  triggers: [NotificationTrigger!]!
+}
+
+type NotificationTrigger {
+  criteria: NotificationCriteria!
+  method: NotificationMethod!
+}
+
+type Offer implements SortableContent {
+  activeDate: OffsetDateTime!
+  bogoParameters: BoGoParameters
+  brand: String!
+  centsOffParameters: CentsOffParameters
+  chainId: UUID!
+  claimedCount: Int
+  clipEndDate: OffsetDateTime!
+  clipStartDate: OffsetDateTime!
+  clipType: ClipType!
+  compoundCentsOffParameters: CompoundCentsOffParameters
+  compoundFixedPriceParameters: CompoundFixedPriceParameters
+  daysToRedeemAfterClip: Int
+  decorators: [OfferDecorator!]
+  dynamicOfferDates: Boolean!
+  expirationDate: OffsetDateTime!
+  featured: Boolean!
+  fixedPriceParameters: FixedPriceParameters
+  forCustomerService: Boolean!
+  freeOfferParameters: FreeOfferParameters
+  fundingType: FundingType!
+  gs1CompanyPrefix: String
+  id: String!
+  importDateTime: OffsetDateTime!
+  isExclusive: Boolean!
+  isGeoRestricted: Boolean!
+  isStackable: Boolean!
+  isTender: Boolean!
+  isValueVariable: Boolean!
+  issuer: String
+  issuerOfferId: String
+  issuerStatus: String!
+  keywordSearchSortValue: Float!
+  limitedUse: Boolean! @deprecated
+  maxAllClipCount: Int
+  maxFreeValueCents: Int!
+  maxRedeemCount: Int
+  maxTransactionRedeemCount: Int
+  """Can the user redeem the offer multiple times in the same transaction"""
+  multipleUse: Boolean!
+  offerCode: Int
+  offerDescription: String!
+  offerIssuerType: OfferIssuerType
+  offerMaxValue: Int
+  offerParameters: OfferParameters
+  offerType: OfferType!
+  """What is the type of offerValue? (CENTS_OFF, PERCENT_OFF, POINTS)"""
+  offerValueType: OfferValueType!
+  orderTotalParameters: OrderTotalParameters
+  percentOffParameters: PercentOffParameters
+  """global popularity ranking based on clips in a period"""
+  popularity: Float
+  """Rank (relevancy) value"""
+  rankSortValue: Int!
+  redemptionGating: String
+  retailerDisplayCategoryIds: [String!]!
+  """Value to use for Sort-by-greatst-value"""
+  savingsSortValue: Int!
+  """Shopper-specific data about the offer"""
+  shopperOffer: ShopperOffer
+  shortDescription: String!
+  sortGroups: [SortGroup!]!
+  sourceCategory: String!
+  sourceId: String!
+  sourceOfferId: String!
+  sponsored: Boolean!
+  storeId: UUID
+  """Mixed bag of tags. See: retailerDisplayCategoryIds"""
+  tags: [String!]
+  terms: String!
+  upcaCode: String
+  updateDateTime: OffsetDateTime!
+  """Readable text for value of offer"""
+  valueText: String!
+  images(use: [ImageUse!]): [GraphQLResourceImage!]!
+  temporalStatus: OfferTemporalStatus!
+}
+
+type OfferAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  offerId: String!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type OfferCategoryConfigDTO implements ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  categories: [CommonRetailerCategory!]!
+  pid: String!
+  type: String!
+  version: String!
+}
+
+type OfferGridSLPItemDTO implements SLPItemDTO {
+  offers: [String!]!
+  title: String
+  type: String!
+}
+
+type OfferListSLPItemDTO implements SLPItemDTO {
+  offers: [String!]!
+  title: String
+  type: String!
+}
+
+type OfferMutationResponse {
+  message: String!
+  offer: Offer
+  success: Boolean!
+}
+
+type OfferV2Response {
+  """Age restricted"""
+  ageRestricted: Boolean!
+  """Begin datetime in UTC, ISO8601 format"""
+  beginAt: OffsetDateTime!
+  """Brand of the product"""
+  brandName: String
+  """Categories display names"""
+  categoryDisplayNames: [String!]!
+  """Full description"""
+  description: String
+  """End datetime in UTC, ISO8601 format"""
+  endAt: OffsetDateTime!
+  """OfferV2 ID"""
+  id: String!
+  """Image URLs"""
+  imageUrls: [String!]
+  """Source, e.g. Skupos, InMar, AMS, etc)"""
+  source: String!
+  """External ID specific to source"""
+  sourceId: String!
+  """Store ID"""
+  storeId: String
+  """Short summary"""
+  summary: String
+  """Terms and Conditions"""
+  termsAndConditions: String
+  """Display title"""
+  title: String!
+  """Type"""
+  type: String!
+  """Products affected"""
+  upcs: [UpcInfo!]
+  """Warning description"""
+  warningDescription: String
+  """Warning title"""
+  warningTitle: String
+  """ZIP code for the offer"""
+  zipcode: String
+}
+
+type Offers {
+  """Total count of available offers."""
+  count: Int!
+  """The list of offers."""
+  offers: [Offer!]!
+}
+
+type OffsetDateTimeTemporal {
+  offsetDateTime: OffsetDateTime!
+}
+
+type OrderTotalParameters {
+  excludeDepartments: DepartmentList
+  excludeUPCs: UPCList
+  includeDepartments: DepartmentList
+  maxPurchase: Int
+  maxRewardQuantity: Long
+  minPurchase: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type PercentDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int
+  getQuantity: Int
+  model: PriceModel!
+  percentOff: String!
+  price: Money
+  type: PriceType!
+}
+
+type PercentOffParameters {
+  buyQuantity: Int
+  availableDays: [DayOfWeek!]!
+  availableTimes: [TimeRange!]!
+  offerValue: Int!
+  validatingUPCs: [UPCList!]!
+}
+
+type Poodle implements IDog {
+  breed: String!
+  specialPoodleValue: String!
+}
+
+type PriceDetail {
+  """Minimum purchase amount required to qualify for the price."""
+  buyQuantity: Int
+  """Per-unit price for the item."""
+  displayPrice: String
+  """Date the price is effective."""
+  effectiveDate: LocalDate
+  """Date the price is no longer valid. Used by clients to determine cache expiration policy."""
+  expirationDate: LocalDate
+  """Quantity received for the price."""
+  getQuantity: Int
+  """The identifier of the mix and match group for this price"""
+  mixAndMatchId: String
+  """The pricing scheme describing the price details."""
+  model: PriceModel!
+  price: BigDecimal @deprecated
+  """Maximum number of items for the price."""
+  quantityLimit: Int
+  """Minimum  number of items for the price."""
+  quantityMinimum: Int
+  """How the product is sold."""
+  soldBy: SoldBy!
+  """The type of the price."""
+  type: PriceType!
+}
+
+type PriceError {
+  message: String
+  type: ProductPriceErrorType!
+}
+
+"""Free form data for describing a price."""
+type PriceInfo {
+  code: String!
+  id: String!
+  type: String!
+  value: String
+}
+
+type PriceProperties implements Price {
+  base: PriceModelProperties
+  cost: Cost
+  info: [PriceInfo!]!
+  mixAndMatchId: String
+  promotion: PriceModelProperties
+  savings: Savings
+  scenario: PriceScenarioType!
+  soldBy: SoldBy!
+  unit: SoldByUnit!
+}
+
+type PriceResult {
+  err: PriceError @deprecated
+  failure: PriceError
+  ok: Price @deprecated
+  success: Price
+}
+
+"""The detail view of a product."""
+type Product {
+  """The brand name."""
+  brand: String
+  """The categories is product belongs to."""
+  categories: [String!]!
+  """Rich text description of the product."""
+  description: String
+  """Programs that this product is eligible for"""
+  eligibilities: [ProductEligibility!]!
+  """The family dollar specific price tag. Will be deprecated shortly."""
+  fdPriceTag: FamilyDollarPriceTag
+  """A unique product identifier. Product identifiers are unique within the scope of the retailer’s chain"""
+  id: String!
+  """Images associated with this product, optionally filtered to a set of particular named types."""
+  images(desiredTypes: [String!]): [ImageRef!]!
+  """The number of product units in stock"""
+  inventoryQuantity: Int
+  """The name of the product."""
+  name: String!
+  """The regulatory notices for the product."""
+  notices: [Notice!]!
+  """The price of the product."""
+  price: PriceResult!
+  """Brief description of the product (less then 512 characters)."""
+  shortDescription: String
+  """Short name of the product (less than 80-characters). Often used for receipts, list views, or other purposes with limited space."""
+  shortName: String
+  """How the item is sold."""
+  soldBy: SoldBy!
+  """Additional metadata about the item"""
+  tags: [Tag!]!
+  """Description of the unit size for items sold by unit. E.g. '8 oz bottle' or '12-ounce can'."""
+  unitSize: String!
+  """The price rendered for web."""
+  webPrice: WebPriceResult!
+  """The offers associated with this product."""
+  offers(offset: Int!, limit: Int!): Offers!
+}
+
+type ProductAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  productId: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type ProductCategoryPreview implements CategoryPreview {
+  """Ads for the category preview."""
+  ads: [AdWithPlacement!]!
+  """Id of the category being previewed."""
+  categoryId: String!
+  """Filler list of products from normal product search."""
+  items: [ProductSummary!]!
+  """Curated list of exemplary products."""
+  prefixItems: [ProductSummaryWithAdTelemetry!]!
+}
+
+type ProductEligibility {
+  eligibilityId: String!
+}
+
+type ProductGridSLPItemDTO implements SLPItemDTO {
+  products: [String!]!
+  title: String
+  type: String!
+  upcs: [String!]!
+}
+
+type ProductListSLPItemDTO implements SLPItemDTO {
+  products: [String!]!
+  title: String
+  type: String!
+  upcs: [String!]!
+}
+
+"""The set of products returned from the query."""
+type ProductResult {
+  """An opaque token used by the server to improve performance during paging (specifically infinite scroll)."""
+  cookie: String!
+  """The total count of products naturally matching the query."""
+  count: Long!
+  """An optional collection of field facets that summarizes the search result"""
+  fieldFacets: [FieldFacet!]
+  """The number of products that are both promoted and natural members of the query."""
+  overlapCount: Int
+  """The total count of promoted products for the query."""
+  prefixCount: Int
+  """The set of promoted products for the query."""
+  prefixProducts: [ProductSummaryWithAdTelemetry!]
+  """The set of products naturally matching the query."""
+  products: [ProductSummary!]!
+  """Indicates when a spelling correction occurred and the corrected keyword."""
+  spelling: SpellingResult
+}
+
+"""A summary of a product."""
+type ProductSummary implements ItemSummary {
+  """The optional associated brand."""
+  brand: String
+  """The categories the product belongs to."""
+  categories: [String!]!
+  """Programs that this product is eligible for"""
+  eligibilities: [ProductEligibility!]!
+  """The family dollar specific price tag. Will be deprecated shortly."""
+  fdPriceTag: FamilyDollarPriceTag @deprecated
+  """The unique ID of the summary type."""
+  id: String!
+  """Images associated with this product, optionally filtered to a particular type. Type matching is strict on name, ordered by size, and ignores description."""
+  images(desiredTypes: [String!]): [ImageRef!]!
+  """The ordinal of the Item summary results."""
+  ordinal: Int!
+  """The price of the product."""
+  price: PriceResult!
+  """The optional short description of the item."""
+  shortDescription: String
+  """Additional metadata about the item summary."""
+  tags: [Tag!]!
+  """The display name of the summary type."""
+  title: String!
+  """The type of the item summary. Given the type, nullable properties may or may not exist."""
+  type: String!
+  """The price rendered for web."""
+  webPrice: WebPriceResult!
+}
+
+"""A summary of a product with ad tracking information attached."""
+type ProductSummaryWithAdTelemetry implements WithAdTelemetry {
+  """Dimensional information for telemetry events."""
+  adTelemetry: AdTelemetry!
+  """The product to show."""
+  product: ProductSummary!
+}
+
+type PromotedOffer {
+  badge: PromotedOfferBadge!
+  categoryId: String!
+  offerId: String!
+  ordinal: Int!
+}
+
+type PromotedOffersConfigDTO implements ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  pid: String!
+  promotedOffers: [PromotedOffer!]!
+  type: String!
+  version: String!
+}
+
+type PurchaseRewardResponse {
+  errorCodes: [String!]!
+  ledgerVersion: Long!
+  rewardInstanceId: String!
+  scannablePayload: String!
+}
+
+type Query {
+  browseSubcategories(id: String!, taxonomyId: String): [String!]!
+  merchandisedDisplayableObjects(id: String!, storeId: String, positions: [String!], taxonomyId: String, siteId: String): [DisplayableObject!]!
+  navOptionsCategories(id: String!, taxonomyId: String): [String!]!
+  previewCategories(id: String!, storeId: String, positions: [String!], taxonomyId: String, siteId: String): [CategoryPreview!]!
+  taxonomy(id: String!): Taxonomy
+  categoryPreviews(dealTypes: [SupportedDealType!]!, adSupport: SupportedAdCapabilityPack, limit: Int, siteId: String): [DealsCategoryPreview!]!
+  allOffers: [Offer!]!
+  claimedOffers(offset: Int, size: Int, limit: Int): [Offer!]!
+  offersHistory: SwiftlyOfferUserHistory!
+  offersSummary: SwiftlyOfferUserSummary!
+  productOffers(productId: String!): [Offer!]!
+  rankedOffers(categoryId: String, offerIds: [String!], siteId: String): [Offer!]!
+  redeemedOffers(offset: Int, size: Int, limit: Int): [Offer!]!
+  searchOffers(keyword: String!, offset: Int, size: Int, limit: Int): [Offer!]!
+  """Grouping of ads that should be presented on the Category Details screen associated with the given category"""
+  categoryDetails(networkId: String, siteId: String!, adCapabilityPackId: AdCapabilityPackId!, category: String!): CategoryDetails!
+  """Grouping of ads and previews that should be presented on the Deals Home screen of the app"""
+  dealsHome(networkId: String, siteId: String!, dealTypes: [SupportedDealType!]!, adCapabilityPackId: AdCapabilityPackId!, offset: Int, limit: Int, contentLimit: Int): DealsHome!
+  """Included for completeness.  Will return all data needed to render a single Ad (UNUSED)"""
+  singleAd(networkId: String!, siteId: String!, placementId: String!, adCapabilityPackId: AdCapabilityPackId!, adParams: [AdParamInput!]!): AdRefList!
+  """A Sponsored Landing Page"""
+  sponsoredLandingPage(networkId: String!, siteId: String!, adCapabilityPackId: AdCapabilityPackId!, slpId: String!): SponsoredLandingPage!
+  flyersByDate(storeId: String!, date: String!): [Flyer!]!
+  availableLoyaltyRewards(storeId: UUID, loyaltyAccountId: String, loyaltyProgramId: String): [Reward!]!
+  issuedLoyaltyRewards(loyaltyAccountId: String, loyaltyProgramId: String, chainProvisioningStatus: [RewardProvisioningStatus!]!): [IssuedReward!]!
+  loyaltyCard(userId: UUID): ShopperLoyaltyCardResponse!
+  loyaltyPrograms(customRetailerProperties: [KeyValuePairInput!]): [LoyaltyProgram!]!
+  loyaltySummary(userId: UUID): LoyaltySummary!
+  testSchema: UnlikelyDogSledTeamResponse!
+  challenges(criteria: ChallengesCriteriaInput!): ChallengesQueryResult!
+  product(productId: String!, storeId: String): Product
+  productByBarcode(barcode: String!, storeId: String): Product
+  products(offset: Int!, limit: Int!, match: ProductMatchInput!, taxonomyId: String, storeId: String, sortBy: ProductSortDimension, cookie: String): ProductResult!
+  offerBrowseCategories(siteId: String): [RetailerCategory!]!
+  sortDimensions(siteId: String!): [String!]!
+  appCompatibility(app: MobileAppType!, versionString: String!): AppCompatibilityCheckResult!
+  appConfiguration(app: MobileAppType!, versionString: String!): MobileAppConfiguration!
+  chain(chainId: UUID): Chain!
+  getShopperAccount(swiftlyShopperId: String!): ShopperAccount!
+  clientActions: [ClientAction!]!
+  featureToggleGroups(chainId: UUID, storeId: UUID): [FeatureToggleGroup!]!
+  store(chainId: UUID, storeId: UUID!): StoreEntry!
+  storeByNumber(storeNumber: Int!): StoreEntry!
+  stores(chainId: UUID): Stores!
+  userProfile(userId: UUID): User!
+  swiftLane(chainId: UUID, storeId: UUID!): SwiftLaneConfig!
+  offersv2bySourceId(sourceId: String!): [OfferV2Response!]!
+  offersv2byStoreId(storeId: String!, loyaltyId: String, ageRestricted: Boolean!): [OfferV2Response!]!
+  offersv2byZipcode(zipcode: String!, loyaltyId: String, ageRestricted: Boolean!): [OfferV2Response!]!
+}
+
+type RebateGridSLPItemDTO implements SLPItemDTO {
+  rebateIds: [String!]!
+  type: String!
+}
+
+type RebateListSLPItemDTO implements SLPItemDTO {
+  rebateIds: [String!]!
+  title: String!
+  type: String!
+}
+
+type Regular implements Price {
+  base: PriceModelProperties!
+  cost: FixedCost
+  info: [PriceInfo!]!
+  mixAndMatchId: String
+  promotion: PriceModelProperties
+  savings: FixedSavings
+  scenario: PriceScenarioType!
+  soldBy: SoldBy!
+  unit: SoldByUnit!
+}
+
+type RetailerCategory {
+  altText: String!
+  displayIntent: RetailerCategoryDisplayIntent
+  displayName: String!
+  endDate: LocalDate
+  id: String!
+  liveDate: LocalDate
+  ordinal: Int!
+  previewDisplayOrder: Int
+  images(use: [ImageUse!]): [GraphQLResourceImage!]!
+}
+
+type Reward {
+  brand: String
+  description: String!
+  displayName: String!
+  images: [Image!]!
+  pluPrices: [ClientPriceRowData!]!
+  pointCost: Int!
+  rewardId: String!
+  status: RewardStatus!
+  termsAndConditions: String!
+  uiDialogTypeDefinitions: UIDialogTypeDefinitions @deprecated
+}
+
+type RootAdPlacement implements DeprecatedAdPlacement {
+  ad: DeprecatedAd
+  placementId: String!
+  rows: [String!]
+}
+
+type RoundedImageAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  aspectRatio: String
+  height: Int!
+  image: ImageAsset!
+  pid: String!
+  pixelUrls: [String!]
+  sponsoredId: String
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type RoundedImageCarouselAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  carousel: [ImageAsset!]!
+  carouselPages: [CarouselPage!]
+  displayDurationMs: Int!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type SavingsDetail {
+  mustBuyAtLeast: Int!
+  savingsAmount: BigDecimal! @deprecated
+  savingsDisplayAmount: String!
+  savingsDisplayPercent: String!
+  savingsPercent: Int! @deprecated
+  savingsQuantity: Int!
+}
+
+type ShopperAccount {
+  attributes: ShopperAttributes!
+  calculations: ShopperCalculations!
+  swiftlyShopperId: String!
+}
+
+type ShopperAttributes {
+  city: String
+  dob: LocalDate
+  email: String
+  givenName: String
+  loyaltyProCardId: String
+  optInEmail: Boolean
+  optInOver21: Boolean
+  optInPush: Boolean
+  paypalEmail: String
+  phone: String
+  selectedStore: String
+  state: String
+  street: String
+  surName: String
+  zipCode: String
+}
+
+type ShopperCalculations {
+  canRetryAgeVerification: Boolean!
+  loyaltyCardId: String
+  over21: Boolean
+}
+
+type ShopperLoyaltyCardResponse {
+  barcodeType: BarcodeSymbology!
+  loyaltyId: String!
+  loyaltyIdFormat: LoyaltyIdFormat!
+  name: String!
+  payload: String!
+}
+
+type ShopperOffer {
+  actions: [ShopperOfferAction!]!
+  claimed: Boolean!
+  loyaltyReward: Boolean!
+  source: ShopperOfferSource!
+  sourceId: String
+  redeemed: Boolean!
+}
+
+type ShopperOfferAction {
+  action: OfferAction!
+  date: OffsetDateTime!
+  source: ShopperOfferSource!
+  sourceId: String
+}
+
+type SinglePromotion implements Price {
+  base: PriceModelProperties!
+  cost: FixedCost
+  info: [PriceInfo!]!
+  mixAndMatchId: String
+  promotion: PriceModelProperties!
+  savings: FixedSavings
+  scenario: PriceScenarioType!
+  soldBy: SoldBy!
+  unit: SoldByUnit!
+}
+
+type SlowMovingConfiguration {
+  appTabList_v2: [AppConfigEntry!]!
+  deleteEnable: AppConfigEntry!
+  hasProductThreeKeyTile: AppConfigEntry!
+  loyaltyComponents: [AppConfigEntry!]!
+  loyaltyPilotEnabled: AppConfigEntry!
+  programEligibilityEnabled: AppConfigEntry!
+  scanEnable: AppConfigEntry!
+  scanEnable_v1: AppConfigEntry!
+  searchEnable: AppConfigEntry!
+  searchEnable_v1: AppConfigEntry!
+  shareEnable: AppConfigEntry!
+  shoppingListEnabled_v2: AppConfigEntry!
+  showSmartSpin: AppConfigEntry!
+  slpEnabled: AppConfigEntry!
+  storeChainList: StoreChainList!
+}
+
+type SortDimension {
+  dimensionId: SortDimensionId!
+  rank: Long!
+}
+
+type SortGroup {
+  dimensions: [SortDimension!]!
+  groupId: String!
+}
+
+type SpellingResult {
+  corrected: String!
+  original: String!
+}
+
+type SplitFixedDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money!
+  buyQuantity: Int
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String
+  price: Money
+  type: PriceType!
+}
+
+type SplitPercentDiscount implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String!
+  price: Money
+  type: PriceType!
+}
+
+type SplitPriceFixedPrice implements PriceModelProperties {
+  activeThrough: ActiveThrough
+  amountOff: Money
+  buyQuantity: Int
+  getQuantity: Int!
+  model: PriceModel!
+  percentOff: String
+  price: Money!
+  type: PriceType!
+}
+
+type SponsoredLandingPage {
+  """List of all ads present on this screen.  Lookup ad ref/ids for Ad data here"""
+  adList: [AdWithPlacement!]!
+  """List of Content Items to Display"""
+  items: [SLPItemDTO!]!
+}
+
+type SponsoredLandingPageDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  content: [SLPItemDTO!]!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type SponsoredProductDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  image: ImageAsset!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type StaffingConfigResource {
+  contact: NotificationContact!
+  etag: Long!
+  staffedBy: StaffedBy!
+  staffingModel: StaffingModel!
+}
+
+type StartAgeVerificationMutationResponse {
+  status: String!
+  verificationId: String
+}
+
+type StoreBusinessStatus {
+  asOfDate: OffsetDateTime!
+  status: BusinessStatus!
+}
+
+type StoreChainEntry {
+  chainIdentifier: String!
+  environmentName: String!
+  hostType: String!
+  tenantIdentifier: String!
+  uniqueBannerShortName: String!
+}
+
+type StoreChainList {
+  storeChains: [StoreChainEntry!]!
+}
+
+type StoreDetails {
+  contactNumbers: [ContactNumber!]
+  description: String!
+  hours: [StoreHoursDaily!]!
+  images: [ImageMapping!]!
+  name: String!
+  nextStatus: StoreBusinessStatus
+  phoneNumbers: [DescribedString!]!
+  status: StoreBusinessStatus!
+  websites: [DescribedString!]!
+}
+
+type StoreEntryDistance {
+  currentLocationDistance: Float
+  distanceUnit: String!
+  isInStore: Boolean!
+  searchDistance: Float!
+  store: StoreEntry!
+}
+
+type StoreHourWindow {
+  close: LocalTime!
+  open: LocalTime!
+}
+
+type StoreHoursDaily {
+  day: Int!
+  hours: [StoreHourWindow!]!
+}
+
+type StoreTransactionClaim {
+  barCode: String!
+  registerId: String!
+  storeId: String!
+  submissionStatus: StoreTransactionClaimStatus!
+  transactionId: String!
+}
+
+type Stores {
+  all(offset: Int, limit: Int): [StoreEntry!]!
+  nearby(searchLatitude: Float!, searchLongitude: Float!, searchRadiusInMiles: Int, inStoreRadiusInMiles: Int, skip: Int, offset: Int, limit: Int, currentLocationLatitude: Float, currentLocationLongitude: Float): [StoreEntryDistance!]!
+}
+
+type SuppressedAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type SwiftLaneConfig {
+  staffing: StaffingConfigResource
+  status: SwiftLaneConfigResource!
+}
+
+type SwiftLaneConfigResource {
+  closingOffsetMin: Int
+  closingTime: String
+  effectiveLaneStatus: LaneStatus!
+  etag: Long!
+  laneStatus: LaneStatus!
+  plannedClosure: Boolean!
+  priceCheckAvailable: Boolean!
+}
+
+type SwiftlyImageDensityUrl {
+  density: String!
+  swiftlyDensity: SwiftlyImageDensity
+  swiftlyDeviceClass: SwiftlyDeviceClass
+  url: String!
+}
+
+type SwiftlyOfferUserHistory {
+  averageMonthlySavings: Float!
+  lifetimeSavings: Float!
+  yearlySavings: Float!
+}
+
+type SwiftlyOfferUserSummary {
+  clippedCount: Int!
+  clippedValue: Float!
+}
+
+"""A tag is an extensibility mechanism for additional descriptors, badges, or decorators to items. A tenant may use tags to annotate products with properties."""
+type Tag {
+  code: String!
+  description: String
+  id: String!
+  images: [ImageRef!]!
+  title: String
+  type: String!
+  value: String
+}
+
+type Taxonomy {
+  allowedTypes: [TaxonomyNodeType!]!
+  displayName: String!
+  graph: [TaxonomyNode!]!
+  id: String!
+}
+
+type TaxonomyNode {
+  """The ordered list of children, suitable for display in a nav tree (e.g. Product Category Menu).  The transitive children relation should form a DAG.  Canonical example of why it's a DAG and not a tree is the 'Umbrellas' category, which may be a child of Housewares, Men's Furnishngs, and Women's Clothing."""
+  children: [String!]!
+  displayName: String!
+  id: String!
+  """Images associated with this node, optionally filtered to a set of particular named types."""
+  images(desiredTypes: [String!]): [ImageRef!]!
+  """The ordered list of parents, mirror of children.  The first entry is the 'Primary' parent, suitable for synthesizing a bread crumb trail for a deeplink.  The transitive parent relation should form a DAG."""
+  parents: [String!]!
+  """Hint to the client to indicate how they should render the taxonomy node page."""
+  renderingTemplate: String!
+  type: TaxonomyNodeType!
+}
+
+type TextUIDialogElement {
+  accessibilityText: String!
+  displayText: String!
+  name: String!
+}
+
+type ThirdPartyAdDTO implements AdDTO & ContentBodyDTO & WithAdTelemetry {
+  adTelemetry: AdTelemetry!
+  aid: String!
+  aiid: UUID!
+  height: Int!
+  pid: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type TimeRange {
+  endTime: String
+  startTime: String
+}
+
+type TitleSLPItemDTO implements SLPItemDTO {
+  title: String
+  type: String!
+}
+
+type UIDialogTypeDefinition {
+  displayType: UIDialogDisplayType!
+  element: UIDialogElement!
+}
+
+type UIDialogTypeDefinitions {
+  elements: [UIDialogTypeDefinition!]!
+  progressDurationMs: Int!
+  uiDialogType: UIDialogType!
+}
+
+type UPCList {
+  buyQuantity: Int
+  externalIds: Boolean!
+  size: Int!
+  upcs: [String!]!
+}
+
+type UnlikelyDogSledTeamResponse {
+  theTeam: DogSledTeam!
+}
+
+type UpcInfo {
+  """Product title"""
+  title: String
+  """UPC code"""
+  upc: String!
+}
+
+type User {
+  userId: UUID
+  profile: UserProfile
+  roles: [String!]
+}
+
+type UserProfile {
+  email: String
+  firstName: String
+  lastName: String
+  marketingOptIn: Boolean!
+  phone: String
+  preferredEmail: String
+}
+
+type VideoSLPItemDTO implements SLPItemDTO {
+  loop: Boolean
+  secondsToPlay: Int!
+  startAt: Int!
+  title: String
+  type: String!
+  url: String
+  videoAspectRatio: String
+}
+
+type WebPrice {
+  """The current price. It will always exist"""
+  basePrice: String!
+  """If the item is on sale or not"""
+  isSale: Boolean! @deprecated
+  """The current price. XOR bogoTitle"""
+  promoPrice: String
+  """Description of the promo. Terms and conditions, etc."""
+  promoText: [String!]
+}
+
+type WebPriceError {
+  displayMessage: String
+  message: String
+  type: ProductPriceErrorType!
+}
+
+type WebPriceResult {
+  failure: WebPriceError
+  success: WebPrice
+}
+
+"""java.math.BigDecimal"""
+scalar BigDecimal
+
+"""A type representing a Byte"""
+scalar Byte
+
+"""A type representing a java.util.Date"""
+scalar Date
+
+"""A type representing a java.time.LocalDate"""
+scalar LocalDate
+
+"""A type representing a java.time.LocalDateTime"""
+scalar LocalDateTime
+
+"""A type representing a java.time.LocalTime"""
+scalar LocalTime
+
+"""Long type"""
+scalar Long
+
+"""A type representing a java.time.OffsetDateTime"""
+scalar OffsetDateTime
+
+"""A type representing a java.util.UUID"""
+scalar UUID
+
+union DateOrDateTime = LocalDateTemporal | LocalDateTimeTemporal | OffsetDateTimeTemporal
+
+union Deal = Offer
+
+"""Type class of anything that can appear in a displayable list"""
+union DisplayableObject = DisplayableAd | CouponCategoryPreview | ProductCategoryPreview
+
+union OfferParameters = BaseOfferParameters | BoGoParameters | CentsOffParameters | CompoundCentsOffParameters | CompoundFixedPriceParameters | FixedPriceParameters | FreeOfferParameters | OrderTotalParameters | PercentOffParameters
+
+union UIDialogElement = TextUIDialogElement
+
