@@ -47,6 +47,12 @@ apis:
   - Retail
   - Offers
   - Loyalty
+  - Product
+  tags_raw:
+  - GraphQL
+  - Retail
+  - Offers
+  - Loyalty
   - Products
   properties:
   - type: GraphQL
