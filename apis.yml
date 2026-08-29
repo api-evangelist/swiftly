@@ -14,6 +14,17 @@ description: 'Swiftly (Swiftly Systems, Inc.) is a Seattle-based retail technolo
   its retailer apps is anonymously introspectable at prod.swiftlyapi.net/graphql, but
   there is no developer portal, no reference documentation and no published SDK.'
 url: https://raw.githubusercontent.com/api-evangelist/swiftly/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://framerusercontent.com/images/Q8lXMlXXwLR5LOG4fQAz0iP3E4.jpg
 x-type: company
 x-source: harvest:secondary-market
