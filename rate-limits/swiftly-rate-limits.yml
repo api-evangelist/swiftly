@@ -1,0 +1,6 @@
+name: Swiftly rate limits
+generated: '2026-10-20'
+method: none
+limit_count: 0
+limits: []
+note: Swiftly publishes no developer documentation and no rate-limit policy. The shopper API at prod.swiftlyapi.net now requires a Bearer token (POST /api/graphql answered 401 on 2026-10-20), so no runtime headers could be observed anonymously.

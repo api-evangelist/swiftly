@@ -1,5 +1,6 @@
 ---
-name: Find and clip Swiftly offers for a shopper
+name: swiftly-find-and-clip-offers
+title: "Find and clip Swiftly offers for a shopper"
 description: Search a retailer's offer catalog on the Swiftly Shopper GraphQL API and clip the ones a shopper wants, then confirm they landed in the clipped set.
 api: graphql/swiftly-shopper.graphql
 endpoint: https://prod.swiftlyapi.net/graphql

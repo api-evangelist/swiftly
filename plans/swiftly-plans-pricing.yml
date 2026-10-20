@@ -1,0 +1,12 @@
+name: Swiftly pricing
+generated: '2026-10-20'
+method: none
+source: https://swiftly.com/
+audience: business-product
+pricing_basis: negotiated
+published: false
+plan_count: 0
+plans: []
+delivery:
+  delivery: managed
+note: Swiftly publishes no pricing page (https://swiftly.com/pricing answered 404 on 2026-10-20); commercial access is through a sales demo at https://start.swiftly.com/book-demo.

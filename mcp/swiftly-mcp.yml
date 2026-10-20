@@ -1,5 +1,6 @@
 generated: '2026-08-05'
 method: derived
+source: graphql/swiftly-shopper.graphql (introspected 2026-08-05) and live probes of prod.swiftlyapi.net
 status: candidate
 published: false
 searched:
@@ -16,6 +17,11 @@ searched:
   - url: https://github.com/Swiftly-Systems
     http_status: 200
     note: no MCP or SDK repository
+  - url: https://prod.swiftlyapi.net/api/mcp
+    http_status: 401
+    checked: '2026-10-20'
+    note: Bearer challenge with empty body; every /api/* path on this host answers 401 (control path also
+      401), so this proves nothing about an MCP server. Not recorded as one.
 server:
   name: swiftly
   transport: null

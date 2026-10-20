@@ -1,5 +1,6 @@
 ---
-name: Read a Swiftly loyalty balance and redeem a reward
+name: swiftly-loyalty-points-and-rewards
+title: "Read a Swiftly loyalty balance and redeem a reward"
 description: Enroll a shopper in a retailer loyalty program, read their points balance, and spend points on a reward — the only flow on the Swiftly Shopper GraphQL API that moves shopper-owned value.
 api: graphql/swiftly-shopper.graphql
 endpoint: https://prod.swiftlyapi.net/graphql

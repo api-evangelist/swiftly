@@ -1,0 +1,135 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 10
+  own: 5
+  other_domain: 2
+  platform: 3
+  roles:
+  - api
+  - docs
+  - identity
+  - other
+  - source
+  - website
+hosts:
+- host: api.swiftly.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: swiftly.com
+  role: api
+  relation: own
+- host: api.swiftlyapi.net
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: swiftlyapi.net
+  role: api
+  relation: other-domain
+- host: forgeglobal.com
+  found_by:
+  - pointer
+  types:
+  - SecondaryMarket
+  serves: []
+  registrable_domain: forgeglobal.com
+  role: other
+  relation: platform
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: portal.swiftly.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - Login
+  serves:
+  - docs
+  registrable_domain: swiftly.com
+  role: identity
+  relation: own
+- host: prod.swiftlyapi.net
+  found_by:
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - api
+  registrable_domain: swiftlyapi.net
+  role: other
+  relation: other-domain
+- host: start.swiftly.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - docs-index
+  - well-known
+  types:
+  - GettingStarted
+  serves:
+  - docs
+  registrable_domain: swiftly.com
+  role: docs
+  relation: own
+- host: swiftly.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Security
+  - Website
+  - About
+  - Blog
+  - News
+  - CaseStudies
+  - Support
+  - TermsOfService
+  - PrivacyPolicy
+  - Accessibility
+  - Careers
+  serves:
+  - docs
+  registrable_domain: swiftly.com
+  role: website
+  relation: own
+- host: trust.swiftly.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: swiftly.com
+  role: other
+  relation: own
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform

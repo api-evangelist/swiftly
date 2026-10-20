@@ -1,5 +1,7 @@
 aid: swiftly
+
 name: Swiftly
+
 description: 'Swiftly (Swiftly Systems, Inc.) is a Seattle-based retail technology company
   that sells an AI platform purpose-built for grocery, convenience and wholesale retail.
   It powers white-labeled shopper mobile apps and websites for regional and independent
@@ -11,9 +13,12 @@ description: 'Swiftly (Swiftly Systems, Inc.) is a Seattle-based retail technolo
   9 million products and closed-loop campaign outcomes across roughly 33,000 storefronts.
   Swiftly has raised more than $200M and trades on the Forge Global secondary market.
   Swiftly publishes no public developer program: the shopper-facing GraphQL API behind
-  its retailer apps is anonymously introspectable at prod.swiftlyapi.net/graphql, but
+  its retailer apps was anonymously introspectable at prod.swiftlyapi.net/graphql until
+  at least August 2026 and is now Bearer-gated, and
   there is no developer portal, no reference documentation and no published SDK.'
+
 url: https://raw.githubusercontent.com/api-evangelist/swiftly/refs/heads/main/apis.yml
+
 deliveryModel:
   model: saas
   open_source: false
@@ -25,6 +30,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: unknown
@@ -38,12 +44,19 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://framerusercontent.com/images/Q8lXMlXXwLR5LOG4fQAz0iP3E4.jpg
+
 x-type: company
+
 x-source: harvest:secondary-market
+
 specificationVersion: '0.23'
+
 created: '2026-08-05'
-modified: '2026-08-05'
+
+modified: '2026-10-20'
+
 tags:
 - Retail
 - Retail Media
@@ -55,50 +68,20 @@ tags:
 - Artificial Intelligence
 - Mobile
 - Company
-apis:
-- aid: swiftly:shopper-graphql
-  name: Swiftly Shopper GraphQL API
-  description: 'The GraphQL API that backs Swiftly-built retailer mobile apps and websites.
-    Exposes 45 queries and 11 mutations across offers and coupons, product catalog and
-    barcode lookup, store and chain directories, digital flyers, loyalty programs, rewards
-    and challenges, shopper accounts and age verification, and retail-media ad placements.
-    The endpoint is not documented publicly, but introspection is enabled and returns a
-    308-type schema. Discovered from the Swiftly-built savemart.com storefront.'
-  humanURL: https://swiftly.com/platform/app-web
-  baseURL: https://prod.swiftlyapi.net/graphql
-  tags:
-  - GraphQL
-  - Retail
-  - Offers
-  - Loyalty
-  - Product
-  tags_raw:
-  - GraphQL
-  - Retail
-  - Offers
-  - Loyalty
-  - Products
-  properties:
-  - type: GraphQL
-    url: graphql/swiftly-shopper.graphql
-  - type: GraphQLManifest
-    url: graphql/swiftly-shopper-graphql.yml
-  - type: Introspection
-    url: graphql/swiftly-shopper-introspection.json
-  - type: DataModel
-    url: data-model/swiftly-data-model.yml
-  - type: ErrorCatalog
-    url: errors/swiftly-problem-types.yml
-  - type: Conventions
-    url: conventions/swiftly-conventions.yml
-  - type: MCPProposal
-    url: mcp/swiftly-mcp.yml
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: Deprecation
+  url: lifecycle/swiftly-lifecycle.yml
+- type: Hosts
+  url: hosts/swiftly-hosts.yml
+- type: Security
+  url: https://swiftly.com/legal/security
 - type: Website
   url: https://swiftly.com/
 - type: About
@@ -111,6 +94,10 @@ common:
   url: https://swiftly.com/case-studies
 - type: Support
   url: https://swiftly.com/contact
+- type: GettingStarted
+  url: https://start.swiftly.com/book-demo
+- type: Login
+  url: https://portal.swiftly.com/
 - type: TermsOfService
   url: https://swiftly.com/legal/terms
 - type: PrivacyPolicy
@@ -139,28 +126,55 @@ common:
   url: errors/swiftly-problem-types.yml
 - type: DataModel
   url: data-model/swiftly-data-model.yml
-- type: LLMsTxt
-  url: llms/swiftly-llms.txt
 - type: MCPProposal
   url: mcp/swiftly-mcp.yml
 - type: AgentSkill
   url: skills/_index.yml
 - type: SecondaryMarket
   url: https://forgeglobal.com/swiftly_stock/
+
+apis:
+- aid: swiftly:shopper-graphql
+  name: Swiftly Shopper GraphQL API
+  description: 'The GraphQL API that backs Swiftly-built retailer mobile apps and websites.
+    Exposes 45 queries and 11 mutations across offers and coupons, product catalog and
+    barcode lookup, store and chain directories, digital flyers, loyalty programs, rewards
+    and challenges, shopper accounts and age verification, and retail-media ad placements.
+    The endpoint is not documented publicly. On 2026-08-05 anonymous introspection at
+    prod.swiftlyapi.net/graphql returned a 308-type schema (saved verbatim in graphql/);
+    on 2026-10-20 that path answered 404 and POST /api/graphql answered 401 with a Bearer
+    challenge, so the live schema is now gated. Discovered from the Swiftly-built savemart.com storefront.'
+  humanURL: https://swiftly.com/platform/app-web
+  baseURL: https://prod.swiftlyapi.net
+  tags:
+  - GraphQL
+  - Retail
+  - Offers
+  - Loyalty
+  - Product
+  tags_raw:
+  - GraphQL
+  - Retail
+  - Offers
+  - Loyalty
+  - Products
+  properties:
+  - type: GraphQL
+    url: graphql/swiftly-shopper.graphql
+  - type: GraphQLManifest
+    url: graphql/swiftly-shopper-graphql.yml
+  - type: Introspection
+    url: graphql/swiftly-shopper-introspection.json
+  - type: DataModel
+    url: data-model/swiftly-data-model.yml
+  - type: ErrorCatalog
+    url: errors/swiftly-problem-types.yml
+  - type: Conventions
+    url: conventions/swiftly-conventions.yml
+  - type: MCPProposal
+    url: mcp/swiftly-mcp.yml
 x-enrichment:
-  date: '2026-08-05'
+  date: '2026-10-20'
   status: enriched
-  artifacts_added: 18
-  pass: local-v1
-x-discovery:
-  note: >-
-    Swiftly publishes no developer portal, documentation or spec. The GraphQL API behind
-    its white-labeled retailer apps was found on the API host referenced by the
-    Swiftly-built savemart.com storefront, and answers anonymous introspection with a full
-    308-type schema. Recorded here so a later round does not repeat the hunt.
-  evidence:
-  - {url: 'https://prod.swiftlyapi.net/graphql', status: 200}
-  - {url: 'https://swiftly.com/llms.txt', status: 404}
-  - {url: 'https://prod.swiftlyapi.net/openapi.json', status: 404}
-  - {url: 'https://trust.swiftly.com/', status: 200}
-  checked: '2026-08-05'
+  artifacts_added: 4
+  pass: local-v5

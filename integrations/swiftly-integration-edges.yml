@@ -1,0 +1,16 @@
+generated: '2026-10-20'
+method: none
+source:
+- https://zapier.com/apps/swiftly/integrations
+- https://n8n.io/integrations/swiftly/
+- https://composio.dev/toolkits/swiftly
+- https://monid.ai/tools/swiftly
+checked:
+- https://composio.dev/toolkits/swiftly
+- https://monid.ai/tools/swiftly
+- https://n8n.io/integrations/swiftly/
+- https://zapier.com/apps/swiftly/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

@@ -1,5 +1,6 @@
 ---
-name: Resolve a Swiftly store and look up products and circulars
+name: swiftly-store-and-catalog-lookup
+title: "Resolve a Swiftly store and look up products and circulars"
 description: Find the right retailer store on the Swiftly Shopper GraphQL API, then search the catalog, scan a barcode, and pull the weekly digital circular for that store.
 api: graphql/swiftly-shopper.graphql
 endpoint: https://prod.swiftlyapi.net/graphql
