@@ -64,5 +64,104 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Swiftly is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/swiftly_stock/
+Swiftly (Swiftly Systems, Inc.) is a Seattle-based retail technology company that sells an AI platform purpose-built for grocery, convenience and wholesale retail. It powers white-labeled shopper mobile apps and websites for regional and independent retailers, and runs a multi-retailer closed-loop retail media network that lets brands buy targeted advertising against first-party shopper data. Products include the Marketing and Operations AI Stacks, Swiftly Connect (POS / loyalty / inventory / supplier data unification), Audience Optimizer, SmartCircular digital circulars, Alcohol Cashback (from the BYBE acquisition) and Retail Media. The company reports live transactions, 9 million products and closed-loop campaign outcomes across roughly 33,000 storefronts. Swiftly has raised more than $200M and trades on the Forge Global secondary market. Swiftly publishes no public developer program: the shopper-facing GraphQL API behind its retailer apps was anonymously introspectable at prod.swiftlyapi.net/graphql until at least August 2026 and is now Bearer-gated, and there is no developer portal, no reference documentation and no published SDK.
+
+**Areas:** Retail · Retail Media · Grocery · Advertising · Loyalty · Coupons · Commerce · Artificial Intelligence · Mobile · Company
+
+## Swiftly on APIs.io
+
+Everything profiled for Swiftly is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/swiftly/](https://apis.io/providers/swiftly/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Swiftly Shopper GraphQL API](https://apis.io/apis/swiftly/shopper-graphql/) — The GraphQL API that backs Swiftly-built retailer mobile apps and websites. Exposes 45 queries and 11 mutations across offers and coupons, product catalog…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Swiftly Authentication](https://apis.io/security/swiftly/swiftly-authentication/)
+- [Swiftly Domain Security](https://apis.io/security/swiftly/swiftly-domain-security/)
+- [Swiftly Trust Center](https://apis.io/security/swiftly/swiftly-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Swiftly Plans Pricing](https://apis.io/plans/swiftly/swiftly-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Swiftly Rate Limits](https://apis.io/rate-limits/swiftly/swiftly-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://swiftly.com/)
+- [Getting started](https://start.swiftly.com/book-demo)
+- [Support](https://swiftly.com/contact)
+- [Blog](https://swiftly.com/blog)
+- [Security](https://swiftly.com/legal/security)
+- [Terms of service](https://swiftly.com/legal/terms)
+- [Privacy policy](https://swiftly.com/legal/privacy-policy)
+- [GitHub](https://github.com/Swiftly-Systems)
+
+## API Evangelist rating
+
+**Kin Score 36.3** — thin · rubric 0.24.0 · scored 2026-10-20
+
+| Facet | Score |
+|---|---|
+| Discoverability | 74.1 |
+| Contract quality | 35.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 32.7 |
+| Access clarity | 42.1 |
+
+**Agent readiness 21.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 27.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/swiftly/](https://apis.io/providers/swiftly/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Swiftly: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/swiftly/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
